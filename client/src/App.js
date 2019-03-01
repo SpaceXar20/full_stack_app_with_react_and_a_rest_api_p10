@@ -14,7 +14,7 @@ class App extends Component { //Class components need to extend  React.Component
   constructor() {
     //state for data we want to display from flickr
     super();
-    this.state = {
+    this.state = { //set initial state to a empty array called courses
       courses: []
     };
   }
