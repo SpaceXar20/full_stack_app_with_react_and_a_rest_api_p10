@@ -1,5 +1,5 @@
 # full_stack_app_with_react_and_a_rest_api_p10
-#How to run this project: 
+# How to run this project: 
 
 -open two terminals, run mongod and mongo
 
