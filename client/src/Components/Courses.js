@@ -22,9 +22,8 @@ This component also renders a link to the "Create Course" screen. */
     //fetch data from API
     axios
     .get('http://localhost:5000/api/courses')
-    .then(results => {
-      console.log(results)
-      this.setState({ //set state by setting the courses array to hold the data that came from results.data
+    .then(results => { //results param came back as data from api
+      this.setState({ //set state by setting the courses array to hold the data that came from results
        courses: results.data
     })
     
@@ -32,13 +31,13 @@ This component also renders a link to the "Create Course" screen. */
    }
    
    render() {
-     const{courses} = this.state; //set courses array with data to this.state
+     const{courses} = this.state;  //set courses array with data to this.state 
      return ( //JSX inside
       <div className="bounds"> {/*map over the courses array to return titles of my courses, I used a code snippet from here https://stackoverflow.com/a/52428922/10043628 */}
-      {courses.map(course => <div className="grid-33"><a className="course--module course--link" href="course-detail.html"> 
-       <h4 className="course--label">Course</h4> 
+      {courses.map(course => <div key={course._id} className="grid-33"><a className="course--module course--link" href="course-detail.html"> 
+       <h4 className="course--label">Course</h4>  
        <h3 className="course--title">{course.title}</h3>  
-       </a></div>)}
+       </a> </div>)} 
          
           
        
@@ -53,7 +52,7 @@ This component also renders a link to the "Create Course" screen. */
      )
    } 
    }
-     
+   
    
    export default Courses;
    
