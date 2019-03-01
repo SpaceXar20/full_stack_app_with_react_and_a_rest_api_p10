@@ -1,8 +1,14 @@
-// src/App.js file will serve as main container component
+// src/App.js file will serve as main container component, the parent component
 
 import React, { Component } from 'react';
 import './styles/global.css';
 import axios from "axios";
+
+
+//import Components
+import Header from "./Components/Header";
+import Courses from "./Components/Courses";
+
 
 class App extends Component { //Class components need to extend  React.Component, and class components require the render()
   constructor() {
@@ -27,10 +33,12 @@ componentDidMount() {
 }
 
 render() {
-  return (
-    <ul>
-      {this.state.courses.data}
-    </ul>
+  return ( //JSX inside
+    <div>
+      <Header title= 'thisIsAProp'/>
+      <Courses /> 
+    </div>
+    
   )
 }
 }
