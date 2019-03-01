@@ -36,7 +36,7 @@ This component also renders a link to the "Create Course" screen. */
       <div className="bounds"> 
       <div className="grid-33"><a className="course--module course--link" href="course-detail.html">
           <h4 className="course--label">Course</h4>
-          {courses.map(course => <h3 className="course-title">{course.description}</h3>)}
+          {courses.map(course => <h3 className="course-title">{course.title}</h3>)}
         </a></div>
       <div className="grid-33"><a className="course--module course--add--module" href="create-course.html">
           <h3 className="course--add--title"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -47,7 +47,7 @@ This component also renders a link to the "Create Course" screen. */
     </div> 
        
      )
-   }
+   } 
    }
      
    
