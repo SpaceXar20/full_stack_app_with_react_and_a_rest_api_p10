@@ -34,7 +34,7 @@ This component also renders a link to the "Create Course" screen. */
      const{courses} = this.state;
      return ( //JSX inside
       <div className="bounds"> 
-      <div className="grid-33"><a className="course--module course--link" href="course-detail.html">
+      <div className="grid-33"><a className="course-module course--link" href="course-detail.html">
           <h4 className="course--label">Course</h4>
           {courses.map(course => <h3 className="course-title">{course.title}</h3>)}
         </a></div>
