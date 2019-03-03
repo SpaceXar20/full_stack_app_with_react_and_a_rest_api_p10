@@ -8,7 +8,11 @@ import axios from "axios";
 //import Components
 import Header from "./Components/Header";
 import Courses from "./Components/Courses";
-
+import CourseDetail from "./Components/CourseDetail";
+import UserSignIn from "./Components/UserSignIn"
+import UserSignUp from "./Components/UserSignUp"
+import  CreateCourse from "./Components/CreateCourse"
+import  UpdateCourse from "./Components/UpdateCourse"
 
 class App extends Component { //Class components need to extend  React.Component, and class components require the render()
   constructor() {
@@ -37,6 +41,11 @@ render() {
     <div>
       <Header title= 'thisIsAProp'/>
       <Courses /> 
+       {/* <CourseDetail />  */}
+      {/* <UserSignIn /> */}
+       {/* <UserSignUp /> */}
+       {/* <CreateCourse /> */}
+       {/* <UpdateCourse /> */}
     </div>
     
   )

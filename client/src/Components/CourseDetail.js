@@ -1,40 +1,56 @@
-<html lang="en">
+//this component will have it's own state
+import React, { Component } from 'react';
+import axios from "axios";
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Cousine" rel="stylesheet" type="text/css">
-  <link href="../styles/global.css" rel="stylesheet">
-  <title>Courses</title>
-</head>
 
-<body>
-  <div id="root">
-    <div> <!-- this div is already provided for me in App component render()-->
-      <div class="header"> <!-- Header section for Header component  starts here-->
-        <div class="bounds">
-          <h1 class="header--logo">Courses</h1>
-          <nav><span>Welcome Joe Smith!</span><a class="signout" href="index.html">Sign Out</a></nav>
-        </div>
-      </div>  <!-- Header section for Header component  ends here-->
-      <hr>
-      <div>  <!-- Course Details sections starts here here-->
-        <div class="actions--bar">
-          <div class="bounds">
-            <div class="grid-100"><span><a class="button" href="update-course.html">Update Course</a><a class="button" href="#">Delete Course</a></span><a
-                class="button button-secondary" href="index.html">Return to List</a></div>
+/* This component provides the "Course Detail" screen by retrieving the detail 
+for a course from the REST API's /api/courses/:id route and rendering the course.
+
+The component also renders a "Delete Course" button that when clicked 
+should send a DELETE request to the REST API's /api/courses/:id route in order to delete a course.
+
+This component also renders an "Update Course" button for navigating to the "Update Course" screen. */
+
+class CourseDetail extends Component {
+		constructor(props) {
+			//state for data we want to display from API
+			super(props);
+			// console.log(this.props)
+			this.state = {
+				courseDetail: [] //set initial state to a empty array called courseDetail
+			};
+		}   
+	
+		componentDidMount() {
+			//fetch data from API
+			axios
+			.get('http://localhost:5000//api/courses/:id')
+			.then(results => { //results param came back as data from api
+				this.setState({ //set state by setting the courses array to hold the data that came from results
+				 courses: results.data
+			})
+			
+			})
+		 }
+
+		 render() {
+       const {courseDetail} = this.state;
+       return( //JSX inside
+        <div>
+        <div className="actions--bar">
+          <div className="bounds">
+            <div className="grid-100"><span><a className="button" href="update-course.html">Update Course</a><a className="button" href="#">Delete Course</a></span><a
+                className="button button-secondary" href="index.html">Return to List</a></div>
           </div>
         </div>
-        <div class="bounds course--detail">
-          <div class="grid-66">
-            <div class="course--header">
-              <h4 class="course--label">Course</h4>
-              <h3 class="course--title">Build a Basic Bookcase</h3>
+        <div className="bounds course--detail">
+          <div className="grid-66">
+            <div className="course--header">
+              <h4 className="course--label">Course</h4>
+              <h3 className="course--title">Build a Basic Bookcase</h3>
               <p>By Joe Smith</p>
             </div>
-            <div class="course--description">
+            <div className="course--description">
               <p>High-end furniture projects are great to dream about. But unless you have a well-equipped shop and some serious woodworking experience to draw on, it can be difficult to turn the dream into a reality.</p>
               <p>Not every piece of furniture needs to be a museum showpiece, though. Often a simple design does the job just as well and the experience gained in completing it goes a long way toward making the next project even better.</p>
               <p>Our pine bookcase, for example, features simple construction and it's designed to be built with basic woodworking tools. Yet, the finished project is a worthy and useful addition to any room of the house. While it's meant to rest on the floor, you can convert the bookcase to a wall-mounted storage unit by leaving off the baseboard. You can secure the cabinet to the wall by screwing through the cabinet cleats into the wall studs.</p>
@@ -43,14 +59,14 @@
               <p>The specifications that follow will produce a bookcase with overall dimensions of 10 3/4 in. deep x 34 in. wide x 48 in. tall. While the depth of the case is directly tied to the 1 x 10 stock, you can vary the height, width and shelf spacing to suit your needs. Keep in mind, though, that extending the width of the cabinet may require the addition of central shelf supports.</p>
             </div>
           </div>
-          <div class="grid-25 grid-right">
-            <div class="course--stats">
-              <ul class="course--stats--list">
-                <li class="course--stats--list--item">
+          <div className="grid-25 grid-right">
+            <div className="course--stats">
+              <ul className="course--stats--list">
+                <li className="course--stats--list--item">
                   <h4>Estimated Time</h4>
                   <h3>14 hours</h3>
                 </li>
-                <li class="course--stats--list--item">
+                <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
                     <li>1/2 x 3/4 inch parting strip</li>
@@ -69,9 +85,9 @@
             </div>
           </div>
         </div>
-      </div>  <!-- Course details section ends here-->
-    </div>
-  </div>
-</body>
-
-</html>
+      </div>   
+       )
+      }    
+     }
+     
+     export default CourseDetail
