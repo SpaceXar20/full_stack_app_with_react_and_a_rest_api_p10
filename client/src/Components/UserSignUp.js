@@ -1,5 +1,6 @@
 //this component will have it's own state
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom'; //import Navlink to create nav links and to put active class on any link that is active
 
 /*This component provides the "Sign Up" screen by rendering a form that allows 
 a user to sign up by creating a new account. 
@@ -39,11 +40,11 @@ class UserSignUp extends Component {
               <div><input id="password" name="password" type="password" className="" placeholder="Password" value="" /></div>
               <div><input id="confirmPassword" name="confirmPassword" type="password" className="" placeholder="Confirm Password"
                   value="" /></div>
-              <div className="grid-100 pad-bottom"><button className="button" type="submit">Sign Up</button><button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button></div>
+              <div className="grid-100 pad-bottom"><button className="button" type="submit">Sign Up</button><NavLink to='/' className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</NavLink></div>
             </form>
           </div>
           <p>&nbsp;</p>
-          <p>Already have a user account? <a href="sign-in.html">Click here</a> to sign in!</p>
+          <p>Already have a user account? <NavLink to='/signin'>Click here</NavLink> to sign in!</p>
         </div>
       </div>
     </div>

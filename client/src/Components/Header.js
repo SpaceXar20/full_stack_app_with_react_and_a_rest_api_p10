@@ -1,6 +1,7 @@
 // stateless functional component
 
 import React from 'react';
+import { NavLink } from 'react-router-dom'; //import Navlink to create nav links and to put active class on any link that is active
 
 
 /*Header- Displays the top menu bar for the application and 
@@ -14,7 +15,7 @@ const Header = (props) => {
     <div className="header"> 
     <div className="bounds">
     <h1 className="header--logo">Courses</h1>
-    <nav><a className="signup" href="sign-up.html">Sign Up</a><a className="signin" href="sign-in.html">Sign In</a></nav>
+    <nav><NavLink to='/signup' className="signin" href="sign-up.html">Sign Up</NavLink><NavLink to='/signin' className="signin" href="sign-in.html">Sign In</NavLink></nav>
   </div>
 </div>
   )

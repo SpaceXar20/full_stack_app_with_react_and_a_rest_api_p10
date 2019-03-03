@@ -1,5 +1,6 @@
 //this component will have it's own state
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom'; //import Navlink to create nav links and to put active class on any link that is active
 
 /*This component provides the "Create Course" screen by rendering a form 
 that allows a user to create a new course. 
@@ -66,7 +67,7 @@ class CreateCourse extends Component {
                   </ul>
                 </div>
               </div>
-              <div className="grid-100 pad-bottom"><button className="button" type="submit">Create Course</button><button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button></div>
+              <div className="grid-100 pad-bottom"><button className="button" type="submit">Create Course</button><NavLink to='/' className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</NavLink></div>
             </form>
           </div>
         </div>

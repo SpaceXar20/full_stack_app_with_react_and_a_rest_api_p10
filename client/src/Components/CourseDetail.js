@@ -1,6 +1,8 @@
 //this component will have it's own state
 import React, { Component } from 'react';
 import axios from "axios";
+import { NavLink } from 'react-router-dom'; //import Navlink to create nav links and to put active class on any link that is active
+
 
 
 /* This component provides the "Course Detail" screen by retrieving the detail 
@@ -17,7 +19,7 @@ class CourseDetail extends Component {
 			super(props);
 			// console.log(this.props)
 			this.state = {
-				courseDetail: [] //set initial state to a empty array called courseDetail
+				courseInfo: [] //set initial state to a empty array called courseInfo
 			};
 		}   
 	
@@ -34,13 +36,13 @@ class CourseDetail extends Component {
 		 }
 
 		 render() {
-       const {courseDetail} = this.state;
+       const {courseInfo} = this.state;
        return( //JSX inside
         <div>
         <div className="actions--bar">
           <div className="bounds">
-            <div className="grid-100"><span><a className="button" href="update-course.html">Update Course</a><a className="button" href="#">Delete Course</a></span><a
-                className="button button-secondary" href="index.html">Return to List</a></div>
+            <div className="grid-100"><span><NavLink to='/courses/:id/update' className="button">Update Course</NavLink><a className="button" href="#">Delete Course</a></span><NavLink to='/'
+                className="button button-secondary" href="index.html">Return to List</NavLink></div>
           </div>
         </div>
         <div className="bounds course--detail">
