@@ -3,13 +3,13 @@
 import React, { Component } from "react";
 import "./styles/global.css";
 import axios from "axios";
-
 import {
   //import BrowserRouter and Route
   BrowserRouter,
   Route,
   Switch
 } from "react-router-dom";
+
 
 //import Components
 import Header from "./Components/Header";
@@ -20,6 +20,7 @@ import UserSignUp from "./Components/UserSignUp";
 import CreateCourse from "./Components/CreateCourse";
 import UpdateCourse from "./Components/UpdateCourse";
 import UserSignOut from "./Components/UserSignOut";
+
 
 class App extends Component {
   //Class components need to extend  React.Component, and class components require the render()
@@ -46,9 +47,9 @@ class App extends Component {
     return (
       //JSX inside
       <BrowserRouter>
-        <Switch>
-          <div>
-            <Header title="thisIsAProp" />
+        <div>
+          <Header title="thisIsAProp" />
+          <Switch>
             <Route exact path="/" component={Courses} />
             <Route exact path="/courses/create" component={CreateCourse} />
             <Route exact path="/courses/:id/update" component={UpdateCourse} />
@@ -56,8 +57,8 @@ class App extends Component {
             <Route exact path="/signin" component={UserSignIn} />
             <Route exact path="/signup" component={UserSignUp} />
             <Route exact path="/signout" component={UserSignOut} />
-          </div>
-        </Switch>
+          </Switch>
+        </div>
       </BrowserRouter>
     );
   }

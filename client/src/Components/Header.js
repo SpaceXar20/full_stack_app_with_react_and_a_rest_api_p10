@@ -14,7 +14,7 @@ const Header = (props) => {
   return ( //JSX inside
     <div className="header"> 
     <div className="bounds">
-    <h1 className="header--logo">Courses</h1>
+    <NavLink to='/' className="header--logo">Courses</NavLink>
     <nav><NavLink to='/signup' className="signin" href="sign-up.html">Sign Up</NavLink><NavLink to='/signin' className="signin" href="sign-in.html">Sign In</NavLink></nav>
   </div>
 </div>

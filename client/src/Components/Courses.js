@@ -28,7 +28,7 @@ This component also renders a link to the "Create Course" screen. */
       this.setState({ //set state by setting the courses array to hold the data that came from results
        courses: results.data
     })
-    
+    console.log(results)
     })
    }
    
@@ -36,12 +36,10 @@ This component also renders a link to the "Create Course" screen. */
      const{courses} = this.state;  //set courses array with data to this.state 
      return ( //JSX inside
       <div className="bounds"> {/*map over the courses array to return titles of my courses, I used a code snippet from here https://stackoverflow.com/a/52428922/10043628 */}
-      {courses.map(course => <div key={course._id} className="grid-33"><NavLink to='/courses/:id' className="course--module course--link"> 
+      {courses.map(course => <div key={course._id} className="grid-33"><NavLink to={`/courses/${course._id}`} className="course--module course--link" > {/*when the user clicks on a course link, the user will be d=redirected to that course info based on their _id */}
        <h4 className="course--label">Course</h4>  
        <h3 className="course--title">{course.title}</h3>  
        </NavLink> </div>)} 
-         
-          
        
       <div className="grid-33"><NavLink to='/courses/create' className="course--module course--add--module" >
           <h3 className="course--add--title"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
