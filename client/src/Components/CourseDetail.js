@@ -15,16 +15,28 @@ class CourseDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {course: [] };
+    this.handleDelete = this.handleDelete.bind(this); //bind the handle method in order to associated with the class so we can use it on the button with the context of [this]
   }
-
-  componentDidMount() { //I used a code snippet from this video https://scotch.io/courses/using-react-router-4/route-params 
-    const { match: { params } } =this.props
+    /*  The library passes in a prop called match into every route that is rendered. Inside this match object is another object called params
+   this holds all matching params where the key is the name we specified when creating the route and the value is the actual value in the URL.  */
+  componentDidMount() { 
+    const { match: { params } } =this.props //I used a code snippet from this video https://scotch.io/courses/using-react-router-4/route-params 
     //fetch data from API
     axios.get(`http://localhost:5000/api/courses/${params.id}`)
     .then(({data: course}) => {
       this.setState({course})
     });
   }
+
+  //this method will be for deleting a course
+  handleDelete() {
+    const { match: { params }, history } = this.props
+    
+    axios.delete(`http://localhost:5000/api/courses/${params.id}`)
+    .then(() => {
+      history.push('/'); //I used the history object and have it push to the homepage, that way every time I delete a course I am redirected to (/) afterwards
+       });
+  } 
 
   render() {
     const { course } = this.state;
@@ -35,12 +47,12 @@ class CourseDetail extends Component {
           <div className="bounds">
             <div className="grid-100">
               <span>
-                <NavLink to="/courses/:id/update" className="button">
+                <NavLink to={`/courses/${course._id}/update`} className="button">
                   Update Course
                 </NavLink>
-                <a className="button" href="#">
+                <NavLink to={'#'} className="button" onClick={this.handleDelete}>
                   Delete Course
-                </a>
+                </NavLink>
               </span>
               <NavLink
                 to="/"

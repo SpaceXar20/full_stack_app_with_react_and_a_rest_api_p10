@@ -2,7 +2,6 @@
 
 //Require packages
 const { check, validationResult } = require('express-validator/check');
-var mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 var express = require("express");
 var router = express.Router();
@@ -95,7 +94,7 @@ const authenticateUser = async (req, res, next) =>{
 
 //GET /api/users 200, 
 //This Route returns the currently authenticated user
-router.get('/users', authenticateUser, (req, res) => {
+router.get('/users', (req, res) => {
   // the current authenticated user's information is retrieved from the Request object's currentUser property from authenticateUser function
   const user = req.currentUser;
 //we use the Response object's json() method to return the current user's information formatted as JSON:
@@ -220,7 +219,7 @@ router.post("/courses", authenticateUser,  [
 
 //PUT /api/courses/:id 204, 
 //This course  updates a course and returns no content
-router.put("/courses/:id", authenticateUser, [
+router.put("/courses/:id",  [
   //Validate if the user included all required fields and that none are left blank
   check('title')
     .exists({ checkNull: true, checkFalsy: true })
@@ -253,7 +252,7 @@ router.put("/courses/:id", authenticateUser, [
 
 //DELETE /api/courses/:id 204 , 
 // This route deletes a course and returns no content
-router.delete("/courses/:id", authenticateUser, (req, res, next) => {
+router.delete("/courses/:id",  (req, res, next) => {
   req.course.remove(function(err){ //use mongoose's remove method on the req.course
   if(err) return next(err);
     res.json(); //do not return anything on body
