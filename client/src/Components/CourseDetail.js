@@ -84,7 +84,7 @@ class CourseDetail extends Component {
               <ul className="course--stats--list">
                 <li className="course--stats--list--item">
                   <h4>Estimated Time</h4>
-                  <h3>{course.estimatedTime}</h3>
+                  <h3>{course.estimatedTime} hours</h3>
                 </li>
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>

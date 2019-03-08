@@ -59,7 +59,7 @@ class UpdateCourse extends Component {
                   </ul>
                 </div>
               </div>
-              <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><NavLink to='/courses/:id' className="button button-secondary" onclick="event.preventDefault(); location.href='course-detail.html';">Cancel</NavLink></div>
+              <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><NavLink to= '/courses/:id' className="button button-secondary" onclick="event.preventDefault(); location.href='course-detail.html';">Cancel</NavLink></div>
             </form>
           </div>
         </div>

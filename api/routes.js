@@ -167,7 +167,13 @@ router.post('/users', [
 //GET /api/courses/:id 200, 
 //This Route returns a course (including the user that owns the course) for the provided course ID
 router.get('/courses/:id',  (req, res,next) => {
- res.json(req.course);
+  const { id } = req.params;
+  Course.findById(id)  // call the find() on Course model to get all results
+  .populate('user')
+  .exec((err, courses) => { //call exec() on the builder and pass in a callback function into it
+    if(err) return next(err); //this handles any errors that may result from executing the query, by using next() and hand it to express's error handler 
+    res.json(courses);//if there are no errors, we can send results to client's request
+  });
 });
 
 
