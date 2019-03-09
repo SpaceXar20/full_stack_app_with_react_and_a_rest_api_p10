@@ -14,32 +14,42 @@ This component also renders an "Update Course" button for navigating to the "Upd
 class CourseDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = {course: [] };
-    this.handleDelete = this.handleDelete.bind(this); //bind the handle method in order to associated with the class so we can use it on the button with the context of [this]
+    this.state = { //initialize state and include a property to hold the user and course info on empty arrays
+      courses: [],
+      user: []
+    };
+    this.handleDelete = this.handleDelete.bind(this); //bind the handleDelete method in order to associated with the class so we can use it on the button with the context of [this]
   }
-    /*  The library passes in a prop called match into every route that is rendered. Inside this match object is another object called params
+  
+   /*  The library passes in a prop called match into every route that is rendered. Inside this match object is another object called params
    this holds all matching params where the key is the name we specified when creating the route and the value is the actual value in the URL.  */
-  componentDidMount() { 
-    const { match: { params } } =this.props //I used a code snippet from this video https://scotch.io/courses/using-react-router-4/route-params 
+    componentDidMount() {
+    const {match: { params }} = this.props; //I used a code snippet from this video https://scotch.io/courses/using-react-router-4/route-params
     //fetch data from API
-    axios.get(`http://localhost:5000/api/courses/${params.id}`)
-    .then(({data: course}) => {
-      this.setState({course})
-    });
+    axios
+      .get(`http://localhost:5000/api/courses/${params.id}`)
+      .then(results => {
+        //results param came back as data from api
+        this.setState({
+          //set state by setting the courses array to hold the data that came from results
+          courses: results.data,
+          user: results.data.user
+        });
+        console.log(results);
+      });
   }
 
   //this method will be for deleting a course
   handleDelete() {
-    const { match: { params }, history } = this.props
-    
-    axios.delete(`http://localhost:5000/api/courses/${params.id}`)
-    .then(() => {
-      history.push('/'); //I used the history object and have it push to the homepage, that way every time I delete a course I am redirected to (/) afterwards
-       });
-  } 
+    const { match: { params }, history } = this.props;
+
+    axios.delete(`http://localhost:5000/api/courses/${params.id}`).then(() => {
+      history.push("/"); //I used the history object and have it push to the homepage, that way every time I delete a course I am redirected to (/) afterwards
+    });
+  }
 
   render() {
-    const { course } = this.state;
+    const { courses, user } = this.state; //set a const variable to hold courses and user to equal to this.state
     return (
       //JSX inside
       <div>
@@ -47,10 +57,17 @@ class CourseDetail extends Component {
           <div className="bounds">
             <div className="grid-100">
               <span>
-                <NavLink to={`/courses/${course._id}/update`} className="button">
+                <NavLink
+                  to={`/courses/${courses.user}/update`}
+                  className="button"
+                >
                   Update Course
                 </NavLink>
-                <NavLink to={'#'} className="button" onClick={this.handleDelete}>
+                <NavLink
+                  to={"#"}
+                  className="button"
+                  onClick={this.handleDelete}
+                >
                   Delete Course
                 </NavLink>
               </span>
@@ -64,19 +81,13 @@ class CourseDetail extends Component {
             </div>
           </div>
         </div>
-        {/* need to map after bounds */}
         <div className="bounds course--detail">
-          <div className="grid-66">
-            <div className="course--header">
-              <h4 className="course--label">Course</h4>
-              <h3 className="course--title">{course.title}</h3>
-              <p>This course was created by:  {course.user}</p>
-            </div>
+          <div className="course--header">
+            <h4 className="course--label">Course</h4>
+            <h3 className="course--title">{courses.title}</h3>
+            <p>This course was created by: {user.firstName} {user.lastName}</p>
             <div className="course--description">
-              <p>
-                {course.description}
-              </p>
-              
+              <p>{courses.description}</p>
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -84,13 +95,12 @@ class CourseDetail extends Component {
               <ul className="course--stats--list">
                 <li className="course--stats--list--item">
                   <h4>Estimated Time</h4>
-                  <h3>{course.estimatedTime} hours</h3>
+                  <h3>{courses.estimatedTime} hours</h3>
                 </li>
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
-                    <li>{course.materialsNeeded}</li>
-
+                    <li>{courses.materialsNeeded}</li>
                   </ul>
                 </li>
               </ul>
