@@ -180,7 +180,7 @@ router.get('/courses/:id',  (req, res,next) => {
 
 //POST /api/courses 201, 
 //This Route creates a course, sets the Location header to the URI for the course, and returns no content
-router.post("/courses", authenticateUser,  [
+router.post("/courses", authenticateUser, [
   //Validate if the user included all required fields and that none are left blank
   check('title')
     .exists({ checkNull: true, checkFalsy: true })
