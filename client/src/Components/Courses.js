@@ -33,13 +33,12 @@ This component also renders a link to the "Create Course" screen. */
    }
    
    render() {
-     const{courses} = this.state;  //set courses array with data to this.state 
+     const{courses} = this.state;  //set this.state inside a const var called courses
      return ( //JSX inside
       <div className="bounds"> {/*map over the courses array to return titles of my courses, I used a code snippet from here https://stackoverflow.com/a/52428922/10043628 */}
       {courses.map(course => <div key={course._id} className="grid-33"><NavLink to={`/courses/${course._id}`} className="course--module course--link" > {/*when the user clicks on a course link, the user will be d=redirected to that course info based on their _id */}
        <h4 className="course--label">Course</h4>  
        <h3 className="course--title">{course.title}</h3> <br />
-       <h3 className="course--title">Created BY:{course.user.firstName} {course.user.lastName}</h3>
        </NavLink> </div>)} 
        
       <div className="grid-33"><NavLink to='/courses/create' className="course--module course--add--module" >

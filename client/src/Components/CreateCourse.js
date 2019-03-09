@@ -18,7 +18,6 @@ class CreateCourse extends Component {
       super(props);
       // console.log(this.props)
       this.state = {
-        user: 'user._id', 
         title: '',
         description: '',
         estimatedTime: '',
@@ -29,20 +28,34 @@ class CreateCourse extends Component {
      
     }
     
-    
     //this method will be used to create a new course by sending a post request to localhost:5000/api/courses/
     /* NEED TO PASS STATE TO AXIOS */
-    handleSubmit(e) {
-      e.preventDefault()
-      axios
-    .post('localhost:5000/api/courses/')
-    .then(() => {
-      alert('The course was successfully created!');
-    });
+    handleSubmit = event => {
+      event.preventDefault();
+
+      const course = {
+        title: this.state.title,
+        description: this.state.description,
+        estimatedTime: this.state.estimatedTime,
+        materialsNeeded: this.state.materialsNeeded
+      };
+
+      axios({
+        method: 'post',
+        url: 'http://localhost:5000/api/courses',
+        data: course
+        })
+    };
+
+     /*this function will allow the state to be updated at every text input whenever the user types,
+      it does this by targeting name value, I used a coed snippet from this helpful video*/
+     change = e => {
+       this.setState({
+         [e.target.name]: e.target.value
+       })
      }
-     
+
      render() {
-       const{} = this.state;  //set newCourse array with data to this.state 
        return ( //JSX inside
         <div>
         <hr />
@@ -58,22 +71,28 @@ class CreateCourse extends Component {
                 </ul>
               </div>
             </div> */}
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={ this.handleSubmit}>
               <div className="grid-66">
                 <div className="course--header">
                   <h4 className="course--label">Course</h4> {/*add onChange so that we can change state as the user types on all the inputs */}
                   <div><input  
                   value={this.state.title} 
-                  onChange={e => this.setState({ title: e.target.value })} 
-                  id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."/></div>
+                  onChange={e => this.change(e)}
+                  id="title" 
+                  name="title" 
+                  type="text" 
+                  className="input-title course--title--input" 
+                  placeholder="Course title..."/></div>
 
                   <p>{this.state.user}</p>
                 </div>
                 <div className="course--description">
                   <div><textarea 
                   value={this.state.description} 
-                  onChange={e => this.setState({ description: e.target.value })} 
-                  id="description" name="description"  placeholder="Course description..." /></div>
+                  onChange={e => this.change(e)}
+                  id="description" 
+                  name="description"  
+                  placeholder="Course description..." /></div>
                 </div>
               </div>
               <div className="grid-25 grid-right">
@@ -83,15 +102,22 @@ class CreateCourse extends Component {
                       <h4>Estimated Time</h4>
                       <div><input 
                       value={this.state.estimatedTime} 
-                      onChange={e => this.setState({ estimatedTime: e.target.value })}  
-                      id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours" /></div>
+                      onChange={e => this.change(e)}
+                      id="estimatedTime" 
+                      name="estimatedTime" 
+                      type="text" className="course--time--input" 
+                      placeholder="Hours" />
+                      </div>
                     </li>
                     <li className="course--stats--list--item">
                       <h4>Materials Needed</h4>
                       <div><textarea 
                       value={this.state.materialsNeeded} 
-                      onChange={e => this.setState({ materialsNeeded: e.target.value })} 
-                      id="materialsNeeded" name="materialsNeeded"  placeholder="List materials..."/></div>
+                      onChange={e => this.change(e)}
+                      id="materialsNeeded" 
+                      name="materialsNeeded"  
+                      placeholder="List materials..."/>
+                      </div>
                     </li>
                   </ul>
                 </div>
