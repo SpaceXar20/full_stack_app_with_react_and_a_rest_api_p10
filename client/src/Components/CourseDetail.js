@@ -15,10 +15,10 @@ class CourseDetail extends Component {
   constructor(props) {
     super(props);
     this.state = { //initialize state and include a property to hold the user and course info on empty arrays
-      courses: [],
+      course: [],
       user: []
     };
-    this.handleDelete = this.handleDelete.bind(this); //bind the handleDelete method in order to associated with the class so we can use it on the button with the context of [this]
+    this.handleDelete = this.handleDelete.bind(this); //bind the handleDelete method in order to associate it with the class so we can use it on the button with the context of [this]
   }
   
    /*  The library passes in a prop called match into every route that is rendered. Inside this match object is another object called params
@@ -32,10 +32,10 @@ class CourseDetail extends Component {
         //results param came back as data from api
         this.setState({
           //set state by setting the courses array to hold the data that came from results
-          courses: results.data,
+          course: results.data,
           user: results.data.user
         });
-        console.log(results);
+        //console.log(results); //By console logging I was able to see that I am getting each individual course's info in the data object
       });
   }
 
@@ -49,7 +49,7 @@ class CourseDetail extends Component {
   }
 
   render() {
-    const { courses, user } = this.state; //set a const variable to hold courses and user to equal to this.state
+    const { course, user } = this.state; //set a const variable to hold courses and user to equal to this.state
     return (
       //JSX inside
       <div>
@@ -58,7 +58,7 @@ class CourseDetail extends Component {
             <div className="grid-100">
               <span>
                 <NavLink
-                  to={`/courses/${courses.user}/update`}
+                  to={`/courses/${course._id}/update`}
                   className="button"
                 >
                   Update Course
@@ -84,10 +84,10 @@ class CourseDetail extends Component {
         <div className="bounds course--detail">
           <div className="course--header">
             <h4 className="course--label">Course</h4>
-            <h3 className="course--title">{courses.title}</h3>
+            <h3 className="course--title">{course.title}</h3>
             {/* <p>This course was created by: {user.firstName} {user.lastName}</p> */}
             <div className="course--description">
-              <p>{courses.description}</p>
+              <p>{course.description}</p>
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -95,12 +95,12 @@ class CourseDetail extends Component {
               <ul className="course--stats--list">
                 <li className="course--stats--list--item">
                   <h4>Estimated Time</h4>
-                  <h3>{courses.estimatedTime} hours</h3>
+                  <h3>{course.estimatedTime} hours</h3>
                 </li>
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
-                    <li>{courses.materialsNeeded}</li>
+                    <li>{course.materialsNeeded}</li>
                   </ul>
                 </li>
               </ul>

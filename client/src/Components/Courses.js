@@ -28,7 +28,7 @@ This component also renders a link to the "Create Course" screen. */
       this.setState({ //set state by setting the courses array to hold the data that came from results
        courses: results.data
     })
-    console.log(results)
+     //console.log(results) //by console logging I was able to seee that the array of all courses showed up
     })
    }
    

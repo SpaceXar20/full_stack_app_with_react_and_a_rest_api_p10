@@ -1,48 +1,111 @@
 //this component will have it's own state
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'; //import Navlink to create nav links and to put active class on any link that is active
-
+import axios from "axios";
 
 /*This component provides the "Update Course" screen by rendering a form 
 that allows a user to update one of their existing courses. 
 
 The component also renders an "Update Course" button that when clicked 
-sends a PUT request to the REST API's /api/courses/:id route. 
+sends a PUT request to the REST API's  /api/courses/:id route. 
 
 This component also renders a "Cancel" button that returns the user to 
 the "Course Detail" screen. */
 
+//I will need initialize state to hold course and user info data just like I did with the CourseInfo component 
 class UpdateCourse extends Component {
     constructor(props) {
-      //state for data we want to display from API
       super(props);
-      // console.log(this.props)
       this.state = {
-        updatedCourse: '' //set initial state to a empty string called updatedCourse
+        course: [], //the course and user properties contain the current course info before being updated
+        user: [],
+        title: '', //the poperties that have an empty strings will contain the values when the user submits the form to update the form
+        description: '',
+        estimatedTime: '',
+        materialsNeeded: ''
       };
-    }   
+      this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit and handleCancel to the class in order to use it with (this)
+      this.handleCancel = this.handleCancel.bind(this);
+    } 
+    
+    
+    /*this function will allow the state to be updated at every text input whenever the user types,
+      it does this by targeting name value, I used a code snippet from this helpful video
+      https://www.youtube.com/watch?v=qH4pJISKeoI&feature=youtu.be*/
+      change = e => {
+        this.setState({
+          [e.target.name]: e.target.value
+        })
+      }
+
+     //this function will handle the form submission to send a put request
+     handleSubmit = event => {
+      const {match: { params }} = this.props;
+      event.preventDefault();
+
+      const updateCourse = {
+        title: this.state.title,
+        description: this.state.description,
+        estimatedTime: this.state.estimatedTime,
+        materialsNeeded: this.state.materialsNeeded
+      };
+
+      axios({
+        method: 'put',
+        url: `http://localhost:5000/api/courses/${params.id}`,
+        data: updateCourse
+        }).then(
+          alert('The course has been successfully updated!')
+        ).then( () => {
+          const {  history } = this.props;
+          history.push(`/`)
+        })
+    };
+
+    //this function will handle the cancel button so that the user is redirected to the course info page when they click on cancel
+    handleCancel = event => {
+      const { match: { params }, history } = this.props;
+      const { course } = this.state;
+      event.preventDefault();
+      history.push(`/courses/${course._id}`)
+    }
+
   
-    componentDidMount() {
-      
-     }
+    /*  The library passes in a prop called match into every route that is rendered. Inside this match object is another object called params
+   this holds all matching params where the key is the name we specified when creating the route and the value is the actual value in the URL.  */
+   componentDidMount() {
+    const {match: { params }} = this.props; //I used a code snippet from this video https://scotch.io/courses/using-react-router-4/route-params
+    //fetch data from API
+    axios
+      .get(`http://localhost:5000/api/courses/${params.id}`)
+      .then(results => {
+        //results param came back as data from api
+        this.setState({
+          //set state by setting the courses array to hold the data that came from results
+          course: results.data,
+          user: results.data.user
+        });
+        //console.log(results); //By console logging I was able to see that I am getting each individual course's info in the data object
+      });
+  }
      
      render() {
-       const{updatedCourse} = this.state;  //set updatedCourse array with data to this.state 
+      const { course, user } = this.state;;  //set courses and user to this.state 
        return ( //JSX inside
         <div>
         <hr />
         <div className="bounds course--detail">
           <h1>Update Course</h1>
           <div>
-            <form>
+            <form onSubmit={ this.handleSubmit}>
               <div className="grid-66">
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
-                  <div><input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..." defaultValue="Build a Basic Bookcase" /></div>
-                  <p>By Joe Smith</p>
+                  <div><input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..." defaultValue={course.title}  onChange={e => this.change(e)} /></div>
+                  {/* <p>By {user.firstName} {user.lastName}</p> */}
                 </div>
                 <div className="course--description">
-                  <div><textarea id="description" name="description" className placeholder="Course description..." defaultValue={"High-end furniture projects are great to dream about. But unless you have a well-equipped shop and some serious woodworking experience to draw on, it can be difficult to turn the dream into a reality.\n\nNot every piece of furniture needs to be a museum showpiece, though. Often a simple design does the job just as well and the experience gained in completing it goes a long way toward making the next project even better.\n\nOur pine bookcase, for example, features simple construction and it's designed to be built with basic woodworking tools. Yet, the finished project is a worthy and useful addition to any room of the house. While it's meant to rest on the floor, you can convert the bookcase to a wall-mounted storage unit by leaving off the baseboard. You can secure the cabinet to the wall by screwing through the cabinet cleats into the wall studs.\n\nWe made the case out of materials available at most building-supply dealers and lumberyards, including 1/2 x 3/4-in. parting strip, 1 x 2, 1 x 4 and 1 x 10 common pine and 1/4-in.-thick lauan plywood. Assembly is quick and easy with glue and nails, and when you're done with construction you have the option of a painted or clear finish.\n\nAs for basic tools, you'll need a portable circular saw, hammer, block plane, combination square, tape measure, metal rule, two clamps, nail set and putty knife. Other supplies include glue, nails, sandpaper, wood filler and varnish or paint and shellac.\n\nThe specifications that follow will produce a bookcase with overall dimensions of 10 3/4 in. deep x 34 in. wide x 48 in. tall. While the depth of the case is directly tied to the 1 x 10 stock, you can vary the height, width and shelf spacing to suit your needs. Keep in mind, though, that extending the width of the cabinet may require the addition of central shelf supports."} /></div>
+                  <div><textarea id="description" name="description"  placeholder="Course description..." defaultValue={course.description} onChange={e => this.change(e)}/> </div>
                 </div>
               </div>
               <div className="grid-25 grid-right">
@@ -50,16 +113,16 @@ class UpdateCourse extends Component {
                   <ul className="course--stats--list">
                     <li className="course--stats--list--item">
                       <h4>Estimated Time</h4>
-                      <div><input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours" defaultValue="14 hours" /></div>
+                      <div><input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours" defaultValue={course.estimatedTime} onChange={e => this.change(e)} /></div>
                     </li>
                     <li className="course--stats--list--item">
                       <h4>Materials Needed</h4>
-                      <div><textarea id="materialsNeeded" name="materialsNeeded" className placeholder="List materials..." defaultValue={"* 1/2 x 3/4 inch parting strip\n* 1 x 2 common pine\n* 1 x 4 common pine\n* 1 x 10 common pine\n* 1/4 inch thick lauan plywood\n* Finishing Nails\n* Sandpaper\n* Wood Glue\n* Wood Filler\n* Minwax Oil Based Polyurethane\n"} /></div>
+                      <div><textarea id="materialsNeeded" name="materialsNeeded" placeholder="List materials..." defaultValue={course.materialsNeeded}  onChange={e => this.change(e)} /></div>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><NavLink to= '/courses/:id' className="button button-secondary" onclick="event.preventDefault(); location.href='course-detail.html';">Cancel</NavLink></div>
+              <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><button className="button button-secondary" onClick={this.handleCancel}>Cancel</button></div>
             </form>
           </div>
         </div>

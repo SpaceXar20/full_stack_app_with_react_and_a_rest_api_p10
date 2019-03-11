@@ -29,11 +29,10 @@ class CreateCourse extends Component {
     }
     
     //this method will be used to create a new course by sending a post request to localhost:5000/api/courses/
-    /* NEED TO PASS STATE TO AXIOS */
     handleSubmit = event => {
       event.preventDefault();
 
-      const course = {
+      const newCourse = {
         title: this.state.title,
         description: this.state.description,
         estimatedTime: this.state.estimatedTime,
@@ -43,12 +42,18 @@ class CreateCourse extends Component {
       axios({
         method: 'post',
         url: 'http://localhost:5000/api/courses',
-        data: course
+        data: newCourse
+        }).then(
+          alert('The course has been successfully created!')
+        ).then( () => {
+          const {  history } = this.props;
+          history.push(`/`)
         })
     };
 
      /*this function will allow the state to be updated at every text input whenever the user types,
-      it does this by targeting name value, I used a coed snippet from this helpful video*/
+      it does this by targeting name value, I used a code snippet from this helpful video
+      https://www.youtube.com/watch?v=qH4pJISKeoI&feature=youtu.be*/
      change = e => {
        this.setState({
          [e.target.name]: e.target.value

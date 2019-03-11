@@ -10,7 +10,7 @@ includes buttons for signing in and signing up
 and a button for signing out (if there's an authenticated user).*/
 
 const Header = (props) => {
-  console.log(props)
+  // console.log(props)
   return ( //JSX inside
     <div className="header"> 
     <div className="bounds">
