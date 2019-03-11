@@ -19,7 +19,7 @@ class UpdateCourse extends Component {
       this.state = {
         course: [], //the course and user properties contain the current course info before being updated
         user: [],
-        title: '', //the poperties that have an empty strings will contain the values when the user submits the form to update the form
+        title: '', //the properties that have an empty strings will contain the values when the user submits the form to update the form
         description: '',
         estimatedTime: '',
         materialsNeeded: ''
@@ -105,7 +105,7 @@ class UpdateCourse extends Component {
                   {/* <p>By {user.firstName} {user.lastName}</p> */}
                 </div>
                 <div className="course--description">
-                  <div><textarea id="description" name="description"  placeholder="Course description..." defaultValue={course.description} onChange={e => this.change(e)}/> </div>
+                  <div><textarea id="description" name="description"  placeholder="Course description..." defaultValue={this.state.course.description} onChange={e => this.change(e)}/> </div>
                 </div>
               </div>
               <div className="grid-25 grid-right">
@@ -117,7 +117,7 @@ class UpdateCourse extends Component {
                     </li>
                     <li className="course--stats--list--item">
                       <h4>Materials Needed</h4>
-                      <div><textarea id="materialsNeeded" name="materialsNeeded" placeholder="List materials..." defaultValue={course.materialsNeeded}  onChange={e => this.change(e)} /></div>
+                      <div><textarea id="materialsNeeded" name="materialsNeeded" placeholder="List materials..." defaultValue={this.state.course.materialsNeeded}  onChange={e => this.change(e)} /></div>
                     </li>
                   </ul>
                 </div>
