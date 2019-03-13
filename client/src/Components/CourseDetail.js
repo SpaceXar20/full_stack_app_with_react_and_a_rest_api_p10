@@ -85,7 +85,7 @@ class CourseDetail extends Component {
           <div className="course--header">
             <h4 className="course--label">Course</h4>
             <h3 className="course--title">{course.title}</h3>
-            {/* <p>This course was created by: {user.firstName} {user.lastName}</p> */}
+            <p>This course was created by: {user.firstName} {user.lastName}</p>
             <div className="course--description">
               <p>{course.description}</p>
             </div>

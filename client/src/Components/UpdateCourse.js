@@ -1,6 +1,5 @@
 //this component will have it's own state
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom'; //import Navlink to create nav links and to put active class on any link that is active
 import axios from "axios";
 
 /*This component provides the "Update Course" screen by rendering a form 
@@ -102,7 +101,7 @@ class UpdateCourse extends Component {
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
                   <div><input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..." defaultValue={course.title}  onChange={e => this.change(e)} /></div>
-                  {/* <p>By {user.firstName} {user.lastName}</p> */}
+                  <p>By {user.firstName} {user.lastName}</p>
                 </div>
                 <div className="course--description">
                   <div><textarea id="description" name="description"  placeholder="Course description..." defaultValue={this.state.course.description} onChange={e => this.change(e)}/> </div>

@@ -94,7 +94,7 @@ const authenticateUser = async (req, res, next) =>{
 
 //GET /api/users 200, 
 //This Route returns the currently authenticated user
-router.get('/users', (req, res) => {
+router.get('/users', authenticateUser, (req, res) => {
   // the current authenticated user's information is retrieved from the Request object's currentUser property from authenticateUser function
   const user = req.currentUser;
 //we use the Response object's json() method to return the current user's information formatted as JSON:
@@ -180,7 +180,7 @@ router.get('/courses/:id',  (req, res,next) => {
 
 //POST /api/courses 201, 
 //This Route creates a course, sets the Location header to the URI for the course, and returns no content
-router.post("/courses", [
+router.post("/courses", authenticateUser, [
   //Validate if the user included all required fields and that none are left blank
   check('title')
     .exists({ checkNull: true, checkFalsy: true })
@@ -207,11 +207,11 @@ router.post("/courses", [
   var course = new Course({ //create a new course document from incoming json on the request.body
     
     
-    // user: user._id,
+    user: user._id,
     title: req.body.title,
     description: req.body.description,
     estimatedTime: req.body.estimatedTime,
-    "materialsNeeded": req.body.materialsNeeded
+    materialsNeeded: req.body.materialsNeeded
   }); 
 	course.save(function(err){ //call save() on course var and pass a callback function
     if(err) return next(err);
@@ -225,7 +225,7 @@ router.post("/courses", [
 
 //PUT /api/courses/:id 204, 
 //This course  updates a course and returns no content
-router.put("/courses/:id",  [
+router.put("/courses/:id", authenticateUser, [
   //Validate if the user included all required fields and that none are left blank
   check('title')
     .exists({ checkNull: true, checkFalsy: true })
@@ -258,7 +258,7 @@ router.put("/courses/:id",  [
 
 //DELETE /api/courses/:id 204 , 
 // This route deletes a course and returns no content
-router.delete("/courses/:id",  (req, res, next) => {
+router.delete("/courses/:id", authenticateUser, (req, res, next) => {
   req.course.remove(function(err){ //use mongoose's remove method on the req.course
   if(err) return next(err);
     res.json(); //do not return anything on body
