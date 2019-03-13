@@ -53,12 +53,13 @@ and the user's password in the global state. Doing this will allow you to create
 and set the appropriate Authorization header on future REST API requests that require authentication.*/
 
 signIn(emailAddress, password) {
-  
-  axios({
-    method: 'get',
-    url: 'http://localhost:5000/api/users/',
-    headers: {'header1':emailAddress, 'header2': password},
-    }).then(results => {
+  //do a fetch call to get/users
+  axios.get('http://localhost:5000/api/users', {
+   auth: {
+       username:  emailAddress,
+       password: password
+}
+}).then(results => {
       //results param came back as data from api
       this.setState({
         //set the authenticated user info into state
@@ -83,7 +84,7 @@ signIn(emailAddress, password) {
             <Route exact path="/courses/create" component={CreateCourse} />
             <Route exact path="/courses/:id/update" component={UpdateCourse} />
             <Route exact path="/courses/:id" component={CourseDetail} />
-            <Route exact path="/signin" component={ () => <UserSignIn signin={this.signIn}/>} />
+            <Route exact path="/signin" component={ () => <UserSignIn onSubmit={this.signIn}/>} />
             <Route exact path="/signup" component={UserSignUp} />
             <Route exact path="/signout" component={UserSignOut} />
           </Switch>

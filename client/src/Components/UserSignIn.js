@@ -35,7 +35,7 @@ class UserSignIn extends Component {
         <div className="grid-33 centered signin">
           <h1>Sign In</h1>
           <div>
-            <form signin={this.props.signin}>
+            <form onSubmit={this.props.onSubmit}>
               <div><input id="emailAddress" name="emailAddress" type="text" className="" placeholder="Email Address" value={this.state.emailAddress} onChange={e => this.change(e)}  /></div>
               <div><input id="password" name="password" type="password" className="" placeholder="Password" value={this.state.password} onChange={e => this.change(e)} /></div>
               <div className="grid-100 pad-bottom"><button className="button" type="submit">Sign In</button><NavLink to='/' className="button button-secondary">Cancel</NavLink></div>
