@@ -66,7 +66,10 @@ signIn(emailAddress, password) {
         emailAddress: results.data,
         password: results.data.user
       });
-    }).then( () => {
+    }).then(
+      alert('Sign in successful')
+    )
+    .then( () => {
       const {  history } = this.props;
       history.push(`/`)
     })
