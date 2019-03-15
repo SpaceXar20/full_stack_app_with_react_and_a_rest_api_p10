@@ -97,6 +97,7 @@ const authenticateUser = async (req, res, next) =>{
 router.get('/users', authenticateUser, (req, res) => {
   // the current authenticated user's information is retrieved from the Request object's currentUser property from authenticateUser function
   const user = req.currentUser;
+  console.log(user)
 //we use the Response object's json() method to return the current user's information formatted as JSON:
   res.json({
     user_id: user._id,
@@ -204,9 +205,10 @@ router.post("/courses", authenticateUser, [
  
   // the current authenticated user's information is retrieved from the Request object's currentUser property from authenticateUser function
   const user = req.currentUser;
+  // console.log(user)
   var course = new Course({ //create a new course document from incoming json on the request.body
     
-    
+   
     user: user._id,
     title: req.body.title,
     description: req.body.description,

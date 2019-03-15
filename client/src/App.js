@@ -53,6 +53,7 @@ and the user's password in the global state. Doing this will allow you to create
 and set the appropriate Authorization header on future REST API requests that require authentication.*/
 
 signIn(userData) { 
+  console.log(userData)
   //do a fetch call to get/users
   axios.get('http://localhost:5000/api/users', {
    auth: { //set auth headers
@@ -60,20 +61,22 @@ signIn(userData) {
        password: userData.password
        
 }
-}).then(results => {
+}).then(results => { console.log(results.data)
       //dylan small helped me on this section
       this.setState({
         //set the authenticated user info into state
         emailAddress: results.data,
         password: results.data.user
       });
-      //use local Storage to handle the usage of user authorization for deleting/updating courses
-      localStorage.setItem('user', JSON.stringify(results.data.firstName))
-      localStorage.setItem('email', JSON.stringify(results.data.emailAddress))
-      localStorage.setItem('isLoggedIn', JSON.stringify(true))
-      alert(localStorage.getItem('user'))
+      //use local Storage so that the user info will be able to be accessible even when the user reloads the page
+      localStorage.setItem('FirstName', JSON.stringify(results.data.firstName))
+      localStorage.setItem('LastName', JSON.stringify(results.data.lastName))
+      localStorage.setItem('Email', JSON.stringify(results.data.emailAddress))
+      localStorage.setItem('Password', JSON.stringify(results.data.password))
+      localStorage.setItem('UserId', JSON.stringify(results.data.user_id))
+      localStorage.setItem('IsLoggedIn', JSON.stringify(true))
+      alert(`welcome  ${localStorage.FirstName}`)
       console.log(localStorage)
-      console.log(`welcome  ${localStorage.user}`)
 })
 
 }
@@ -86,7 +89,7 @@ signIn(userData) {
           <Header />
           <Switch>
             <Route exact path="/" component={Courses} />
-            <Route exact path="/courses/create" component={CreateCourse} />
+            <Route exact path="/courses/create" component={ () => <CreateCourse signIn={this.signIn}/>} />
             <Route exact path="/courses/:id/update" component={UpdateCourse} />
             <Route exact path="/courses/:id" component={CourseDetail} />
             <Route exact path="/signin" component={ () => <UserSignIn signIn={this.signIn}/>} /> {/*pass in the signIn() in a prop called signIn to the UserSignIn component*/}

@@ -21,7 +21,7 @@ class UserSignIn extends Component {
      
     //this method will be called when the user submits the sign in button, I will need to pass {this.props.onSubmit} to it from the App.js line 92
     handleSubmit = event => {
-      console.log( this.props)
+      console.log( this.state)
       event.preventDefault();
       {/* define a var to hold user info called userData that has 2 props called password and emailAddress that holds the state for each*/}
       let userData = {"password": this.state.password, "emailAddress": this.state.emailAddress}
