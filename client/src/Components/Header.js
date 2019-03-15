@@ -9,7 +9,12 @@ includes buttons for signing in and signing up
 (if there's not an authenticated user) or the user's first and last name 
 and a button for signing out (if there's an authenticated user).*/
 
-const Header = (props) => {
+const Header = () => {
+  // if user is logged in
+    // then return this header with the user name
+    //else render the regular header if no one is logged in
+
+  
   // console.log(props)
   return ( //JSX inside
     <div className="header"> 

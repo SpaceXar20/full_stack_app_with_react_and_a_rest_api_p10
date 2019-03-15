@@ -52,29 +52,31 @@ After validating the user's credentials, persist the returned user record
 and the user's password in the global state. Doing this will allow you to create 
 and set the appropriate Authorization header on future REST API requests that require authentication.*/
 
-signIn(emailAddress, password) {
+signIn(userData) { 
   //do a fetch call to get/users
   axios.get('http://localhost:5000/api/users', {
-   auth: {
-       username:  emailAddress,
-       password: password
+   auth: { //set auth headers
+       username: userData. emailAddress,
+       password: userData.password
+       
 }
 }).then(results => {
-      //results param came back as data from api
+      //dylan small helped me on this section
       this.setState({
         //set the authenticated user info into state
         emailAddress: results.data,
         password: results.data.user
       });
-    }).then(
-      alert('Sign in successful')
-    )
-    .then( () => {
-      const {  history } = this.props;
-      history.push(`/`)
-    })
-};
+      //use local Storage to handle the usage of user authorization for deleting/updating courses
+      localStorage.setItem('user', JSON.stringify(results.data.firstName))
+      localStorage.setItem('email', JSON.stringify(results.data.emailAddress))
+      localStorage.setItem('isLoggedIn', JSON.stringify(true))
+      alert(localStorage.getItem('user'))
+      console.log(localStorage)
+      console.log(`welcome  ${localStorage.user}`)
+})
 
+}
 //pass signIn as props to UserSignIn component
   render() {
     return (
@@ -87,9 +89,9 @@ signIn(emailAddress, password) {
             <Route exact path="/courses/create" component={CreateCourse} />
             <Route exact path="/courses/:id/update" component={UpdateCourse} />
             <Route exact path="/courses/:id" component={CourseDetail} />
-            <Route exact path="/signin" component={ () => <UserSignIn onSubmit={this.signIn}/>} />
+            <Route exact path="/signin" component={ () => <UserSignIn signIn={this.signIn}/>} /> {/*pass in the signIn() in a prop called signIn to the UserSignIn component*/}
             <Route exact path="/signup" component={UserSignUp} />
-            <Route exact path="/signout" component={UserSignOut} />
+            {/* <Route exact path="/signout" component={UserSignOut} /> */}
           </Switch>
         </div>
       </BrowserRouter>
