@@ -89,7 +89,7 @@ class CreateCourse extends Component {
                   className="input-title course--title--input" 
                   placeholder="Course title..."/></div>
 
-                  <p>{this.state.user}</p>
+                  <p>{localStorage.user}</p>
                 </div>
                 <div className="course--description">
                   <div><textarea 
