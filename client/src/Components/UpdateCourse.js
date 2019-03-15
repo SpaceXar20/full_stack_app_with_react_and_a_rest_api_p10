@@ -52,6 +52,10 @@ class UpdateCourse extends Component {
       axios({
         method: 'put',
         url: `http://localhost:5000/api/courses/${params.id}`,
+        auth: {
+          username: this.props.emailAddress,
+          password: this.props.password
+       },
         data: updateCourse
         }).then(
           alert('The course has been successfully updated!')
