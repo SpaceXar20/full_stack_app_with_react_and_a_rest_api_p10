@@ -42,8 +42,8 @@ class CreateCourse extends Component {
         method: 'post',
         url: 'http://localhost:5000/api/courses',
         auth: {
-   username: this.props.email,
-   password: this.props.pass
+   username: window.localStorage.getItem('Email'),
+   password: window.localStorage.getItem('Password')
 },
         data: newCourse
         }).then(

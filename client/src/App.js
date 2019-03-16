@@ -31,7 +31,8 @@ class App extends Component {
     super();
     this.state = {
       emailAddress: '',
-      password: '' 
+      password: '',
+      IsLoggedIn: false 
     };
     this.signIn = this.signIn.bind(this); //bind the signIn method in order to associate it with the class so we can use it on the  context of [this]
   }
@@ -65,17 +66,18 @@ signIn(userData) {
       this.setState({
         //set the authenticated user info into state
         emailAddress: userData.emailAddress,
-        password: userData.password
+        password: userData.password,
+        IsLoggedIn: true
       });
-      //use local Storage so that the user info will be able to be accessible even when the user reloads the page
+      //use local Storage so that the user's credentials info will be able to be accessible even when the user reloads the page
       // localStorage.setItem('FirstName', JSON.stringify(results.data.firstName))
       // localStorage.setItem('LastName', JSON.stringify(results.data.lastName))
-      localStorage.setItem('Email', JSON.stringify(userData.emailAddress))
-      localStorage.setItem('Password', JSON.stringify(userData.password))
+      window.localStorage.setItem('Email',userData.emailAddress)
+      window.localStorage.setItem('Password',userData.password)
       // localStorage.setItem('UserId', JSON.stringify(results.data.user_id))
       // localStorage.setItem('IsLoggedIn', JSON.stringify(true))
       alert(`welcome  ${localStorage.FirstName}`)
-      console.log(localStorage)
+      console.log(localStorage.token)
 })
 
 }
