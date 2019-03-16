@@ -45,8 +45,8 @@ class CourseDetail extends Component {
 
     axios.delete(`http://localhost:5000/api/courses/${params.id}`, {
     auth: {
-      username: this.props.emailAddress,
-      password: this.props.password
+      username: this.props.email,
+      password: this.props.pass
    }
   }).then(() => {
       history.push("/"); //I used the history object and have it push to the homepage, that way every time I delete a course I am redirected to (/) afterwards

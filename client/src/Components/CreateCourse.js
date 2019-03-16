@@ -31,20 +31,20 @@ class CreateCourse extends Component {
     //this method will be used to create a new course by sending a post request to localhost:5000/api/courses/
     handleSubmit = event => {
       event.preventDefault();
-      console.log(this.props)
+      console.log(this.props.email)
       const newCourse = {
         title: this.state.title,
         description: this.state.description,
         estimatedTime: this.state.estimatedTime,
         materialsNeeded: this.state.materialsNeeded
       };
-      axios({ 
+      axios({
         method: 'post',
         url: 'http://localhost:5000/api/courses',
         auth: {
-          username: this.props.emailAddress,
-          password: this.props.password
-       },
+   username: this.props.email,
+   password: this.props.pass
+},
         data: newCourse
         }).then(
           alert('The course has been successfully created!')

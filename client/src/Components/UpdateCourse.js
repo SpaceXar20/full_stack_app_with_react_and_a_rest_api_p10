@@ -53,8 +53,8 @@ class UpdateCourse extends Component {
         method: 'put',
         url: `http://localhost:5000/api/courses/${params.id}`,
         auth: {
-          username: this.props.emailAddress,
-          password: this.props.password
+          username: this.props.email,
+   password: this.props.pass
        },
         data: updateCourse
         }).then(

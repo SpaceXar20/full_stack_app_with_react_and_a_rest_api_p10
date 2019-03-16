@@ -56,25 +56,24 @@ signIn(userData) {
   console.log(userData)
   //do a fetch call to get/users
   axios.get('http://localhost:5000/api/users', {
-   auth: { //set auth headers
+   auth: { //set auth headers so that userData will hold the email address and password for the authenticated user 
        username: userData. emailAddress,
        password: userData.password
        
 }
 }).then(results => { console.log(results.data)
-      //dylan small helped me on this section
       this.setState({
         //set the authenticated user info into state
-        emailAddress: results.data,
-        password: results.data.user
+        emailAddress: userData.emailAddress,
+        password: userData.password
       });
       //use local Storage so that the user info will be able to be accessible even when the user reloads the page
-      localStorage.setItem('FirstName', JSON.stringify(results.data.firstName))
-      localStorage.setItem('LastName', JSON.stringify(results.data.lastName))
-      localStorage.setItem('Email', JSON.stringify(results.data.emailAddress))
-      localStorage.setItem('Password', JSON.stringify(results.data.password))
-      localStorage.setItem('UserId', JSON.stringify(results.data.user_id))
-      localStorage.setItem('IsLoggedIn', JSON.stringify(true))
+      // localStorage.setItem('FirstName', JSON.stringify(results.data.firstName))
+      // localStorage.setItem('LastName', JSON.stringify(results.data.lastName))
+      localStorage.setItem('Email', JSON.stringify(userData.emailAddress))
+      localStorage.setItem('Password', JSON.stringify(userData.password))
+      // localStorage.setItem('UserId', JSON.stringify(results.data.user_id))
+      // localStorage.setItem('IsLoggedIn', JSON.stringify(true))
       alert(`welcome  ${localStorage.FirstName}`)
       console.log(localStorage)
 })
@@ -89,9 +88,9 @@ signIn(userData) {
           <Header />
           <Switch>
             <Route exact path="/" component={Courses} />
-            <Route exact path="/courses/create" component={ () => <CreateCourse signIn={this.signIn}/>} />
-            <Route exact path="/courses/:id/update" component={UpdateCourse} />
-            <Route exact path="/courses/:id" component={CourseDetail} />
+            <Route exact path="/courses/create"  component={() => <CreateCourse email={this.state.emailAddress} pass={this.state.password} />} />
+            <Route exact path="/courses/:id/update" component={() => <UpdateCourse email={this.state.emailAddress} pass={this.state.password} />} />
+            <Route exact path="/courses/:id" component={() => <CourseDetail email={this.state.emailAddress} pass={this.state.password} />} />
             <Route exact path="/signin" component={ () => <UserSignIn signIn={this.signIn}/>} /> {/*pass in the signIn() in a prop called signIn to the UserSignIn component*/}
             <Route exact path="/signup" component={UserSignUp} />
             {/* <Route exact path="/signout" component={UserSignOut} /> */}

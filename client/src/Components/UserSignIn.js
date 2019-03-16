@@ -24,7 +24,7 @@ class UserSignIn extends Component {
       console.log( this.state)
       event.preventDefault();
       {/* define a var to hold user info called userData that has 2 props called password and emailAddress that holds the state for each*/}
-      let userData = {"password": this.state.password, "emailAddress": this.state.emailAddress}
+      let userData = {"password": this.state.password, "emailAddress": this.state.emailAddress} //dylan small helped me on this section <--
       this.props.signIn(userData)
       
         
