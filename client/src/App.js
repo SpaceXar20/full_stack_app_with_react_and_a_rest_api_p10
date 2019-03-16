@@ -52,7 +52,7 @@ After validating the user's credentials, persist the returned user record
 and the user's password in the global state. Doing this will allow you to create 
 and set the appropriate Authorization header on future REST API requests that require authentication.*/
 
-signIn(userData) { 
+signIn(userData) {
   console.log(userData)
   //do a fetch call to get/users
   axios.get('http://localhost:5000/api/users', {
@@ -79,7 +79,7 @@ signIn(userData) {
 })
 
 }
-//pass signIn as props to UserSignIn component
+//pass the auth header as props to all child components that will need authentication
   render() {
     return (
       //JSX inside
@@ -87,11 +87,11 @@ signIn(userData) {
         <div>
           <Header />
           <Switch>
-            <Route exact path="/" component={Courses} />
-            <Route exact path="/courses/create"  component={() => <CreateCourse email={this.state.emailAddress} pass={this.state.password} />} />
-            <Route exact path="/courses/:id/update" component={() => <UpdateCourse email={this.state.emailAddress} pass={this.state.password} />} />
-            <Route exact path="/courses/:id" component={() => <CourseDetail email={this.state.emailAddress} pass={this.state.password} />} />
-            <Route exact path="/signin" component={ () => <UserSignIn signIn={this.signIn}/>} /> {/*pass in the signIn() in a prop called signIn to the UserSignIn component*/}
+            <Route exact path="/" component={props => <Courses {...props} />} />
+            <Route exact path="/courses/create"  component={props => <CreateCourse {...props}  email={this.state.emailAddress} pass={this.state.password} />} />
+            <Route exact path="/courses/:id/update" component={props => <UpdateCourse  {...props}  email={this.state.emailAddress} pass={this.state.password} />} />
+            <Route exact path="/courses/:id" component={props => <CourseDetail {...props} email={this.state.emailAddress} pass={this.state.password} />} />
+            <Route exact path="/signin" component={props => <UserSignIn {...props} signIn={this.signIn}/>} /> 
             <Route exact path="/signup" component={UserSignUp} />
             {/* <Route exact path="/signout" component={UserSignOut} /> */}
           </Switch>
