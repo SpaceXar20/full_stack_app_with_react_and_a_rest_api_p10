@@ -53,8 +53,8 @@ class UpdateCourse extends Component {
         method: 'put',
         url: `http://localhost:5000/api/courses/${params.id}`,
         auth: {
-          username: window.localStorage.getItem('Email'),
-          password: window.localStorage.getItem('Password')
+          username: window.localStorage.getItem('user'),
+          password: window.localStorage.getItem('user')
        },
         data: updateCourse
         }).then(

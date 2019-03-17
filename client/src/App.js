@@ -70,14 +70,14 @@ signIn(userData) {
         IsLoggedIn: true
       });
       //use local Storage so that the user's credentials info will be able to be accessible even when the user reloads the page
-      // localStorage.setItem('FirstName', JSON.stringify(results.data.firstName))
-      // localStorage.setItem('LastName', JSON.stringify(results.data.lastName))
+      
+      window.localStorage.setItem('FirstName',results.data.firstName)
+      window.localStorage.setItem('LastName', results.data.lastName)
       window.localStorage.setItem('Email',userData.emailAddress)
       window.localStorage.setItem('Password',userData.password)
-      // localStorage.setItem('UserId', JSON.stringify(results.data.user_id))
-      // localStorage.setItem('IsLoggedIn', JSON.stringify(true))
-      alert(`welcome  ${localStorage.FirstName}`)
-      console.log(localStorage.token)
+      // // localStorage.setItem('UserId', JSON.stringify(results.data.user_id))
+       window.localStorage.setItem('IsLoggedIn', JSON.stringify(true))
+      alert(`welcome  ${localStorage.getItem('FirstName')}`)
 })
 
 }
@@ -87,12 +87,12 @@ signIn(userData) {
       //JSX inside
       <BrowserRouter>
         <div>
-          <Header />
+          <Header IsLoggedIn={this.state.IsLoggedIn} />
           <Switch>
-            <Route exact path="/" component={props => <Courses {...props} />} />
-            <Route exact path="/courses/create"  component={props => <CreateCourse {...props}  email={this.state.emailAddress} pass={this.state.password} />} />
-            <Route exact path="/courses/:id/update" component={props => <UpdateCourse  {...props}  email={this.state.emailAddress} pass={this.state.password} />} />
-            <Route exact path="/courses/:id" component={props => <CourseDetail {...props} email={this.state.emailAddress} pass={this.state.password} />} />
+            <Route exact path="/" component={Courses} />
+            <Route exact path="/courses/create"  component={props => <CreateCourse {...props}  IsLoggedIn={this.state.IsLoggedIn} />} />
+            <Route exact path="/courses/:id/update" component={props => <UpdateCourse  {...props}  IsLoggedIn={this.state.IsLoggedIn} />} />
+            <Route exact path="/courses/:id" component={props => <CourseDetail {...props} IsLoggedIn={this.state.IsLoggedIn} />} />
             <Route exact path="/signin" component={props => <UserSignIn {...props} signIn={this.signIn}/>} /> 
             <Route exact path="/signup" component={UserSignUp} />
             {/* <Route exact path="/signout" component={UserSignOut} /> */}
