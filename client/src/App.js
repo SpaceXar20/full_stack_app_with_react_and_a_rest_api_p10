@@ -7,7 +7,9 @@ import axios from "axios";
 import {
   BrowserRouter,
   Route,
-  Switch
+  Switch,
+  Redirect,
+  Link
 } from "react-router-dom";
 
 
@@ -19,20 +21,18 @@ import UserSignIn from "./Components/UserSignIn";
 import UserSignUp from "./Components/UserSignUp";
 import CreateCourse from "./Components/CreateCourse";
 import UpdateCourse from "./Components/UpdateCourse";
+import PrivateRoute from "./Components/PrivateRoute"
 
-
-/*I am going to manage user authentication on this component
+/*I am going to manage user authentication on this component by using local storage, that way
  the authenticated user and the user sign in and sign out actions (i.e. methods) will be made 
- available throughout the application, by using local storage to make the user's info made available throughout the app */
+ available throughout the application*/
 
 class App extends Component {
   //Class components need to extend  React.Component, and class components require the render()
-  constructor() {
+  constructor() { //since I'll be using local storage to authenticate users, I won't be using  props on this component
     super();
     this.state = {
-      emailAddress: '',
-      password: '',
-      IsLoggedIn: false 
+      
     };
     this.signIn = this.signIn.bind(this); //bind the signIn method in order to associate it with the class so we can use it on the  context of [this]
   }
@@ -63,12 +63,7 @@ signIn(userData) {
        
 }
 }).then(results => { console.log(results.data)
-      this.setState({
-        //set the authenticated user info into state
-        emailAddress: userData.emailAddress,
-        password: userData.password,
-        IsLoggedIn: true
-      });
+      
       //use local Storage so that the user's credentials info will be able to be accessible even when the user reloads the page
       
       window.localStorage.setItem('FirstName',results.data.firstName)
@@ -81,21 +76,20 @@ signIn(userData) {
 })
 
 }
-//pass the auth header as props to all child components that will need authentication
+
   render() {
     return (
       //JSX inside
       <BrowserRouter>
         <div>
-          <Header IsLoggedIn={this.state.IsLoggedIn} />
+          <Header  />
           <Switch>
             <Route exact path="/" component={Courses} />
-            <Route exact path="/courses/create"  component={props => <CreateCourse {...props}  IsLoggedIn={this.state.IsLoggedIn} />} />
-            <Route exact path="/courses/:id/update" component={props => <UpdateCourse  {...props}  IsLoggedIn={this.state.IsLoggedIn} />} />
-            <Route exact path="/courses/:id" component={props => <CourseDetail {...props} IsLoggedIn={this.state.IsLoggedIn} />} />
-            <Route exact path="/signin" component={props => <UserSignIn {...props} signIn={this.signIn}/>} /> 
+            <PrivateRoute path="/courses/create"  component={CreateCourse} /> {/*this route will need to be protected */}
+            <PrivateRoute path="/courses/:id/update" component={UpdateCourse} /> {/*this route will need to be protected */}
+            <Route exact path="/courses/:id" component={CourseDetail} />
+            <Route exact path="/signin" component={() => <UserSignIn  signIn={this.signIn}/>} /> 
             <Route exact path="/signup" component={UserSignUp} />
-            {/* <Route exact path="/signout" component={UserSignOut} /> */}
           </Switch>
         </div>
       </BrowserRouter>
