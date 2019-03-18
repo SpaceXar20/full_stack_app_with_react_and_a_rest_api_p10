@@ -1,10 +1,10 @@
 // src/App.js file will serve as main container component, the parent component
 
+//import React dependencies//import BrowserRouter and Route
 import React, { Component } from "react";
 import "./styles/global.css";
 import axios from "axios";
 import {
-  //import BrowserRouter and Route
   BrowserRouter,
   Route,
   Switch
@@ -19,11 +19,11 @@ import UserSignIn from "./Components/UserSignIn";
 import UserSignUp from "./Components/UserSignUp";
 import CreateCourse from "./Components/CreateCourse";
 import UpdateCourse from "./Components/UpdateCourse";
-import UserSignOut from "./Components/UserSignOut";
+
 
 /*I am going to manage user authentication on this component
  the authenticated user and the user sign in and sign out actions (i.e. methods) will be made 
- available throughout the application, by using props to pass references down through the component tree. */
+ available throughout the application, by using local storage to make the user's info made available throughout the app */
 
 class App extends Component {
   //Class components need to extend  React.Component, and class components require the render()
@@ -77,7 +77,7 @@ signIn(userData) {
       window.localStorage.setItem('Password',userData.password)
       // // localStorage.setItem('UserId', JSON.stringify(results.data.user_id))
        window.localStorage.setItem('IsLoggedIn', JSON.stringify(true))
-      alert(`welcome  ${localStorage.getItem('FirstName')}`)
+      window.location.assign('/') //use location.assign so that the user can be redirected to the updated Nav bar with their name after login in
 })
 
 }

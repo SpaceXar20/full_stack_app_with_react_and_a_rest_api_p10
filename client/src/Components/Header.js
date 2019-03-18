@@ -1,9 +1,8 @@
 // stateless functional component
 
-import React from 'react';
-import { Router } from 'react-router-dom'; //import Navlink to create nav links and to put active class on any link that is active
-import UserGreeting from './UserGreeting'
-import GuestGreeting from './GuestGreeting'
+import React from "react";
+import UserGreeting from "./UserGreeting";
+import GuestGreeting from "./GuestGreeting";
 
 /*Header- Displays the top menu bar for the application and 
 includes buttons for signing in and signing up 
@@ -11,33 +10,13 @@ includes buttons for signing in and signing up
 and a button for signing out (if there's an authenticated user).*/
 
 function Header() {
-  const isLoggedIn = (localStorage.getItem('IsLoggedIn'))
-  console.log(isLoggedIn)
+  //set the isLoggedIn boolean I stored in local storage to isLoggedIn, if isLoggedIn exists in local storage display UserGreeting, if not then display GuestGreeting
+  const isLoggedIn = localStorage.getItem("IsLoggedIn");
+  console.log(isLoggedIn);
   if (isLoggedIn) {
     return <UserGreeting />;
   }
-    return <GuestGreeting  />;
-    
-  
+  return <GuestGreeting />;
 }
-
-
-
-// if (localStorage.getItem('user')){
-//   // return this header
-// } else if(!){
-//   // return this
-// }
-//   const isLoggedIn = props
-//   console.log(isLoggedIn)
-//   return ( //JSX inside
-//     <div className="header"> 
-//     <div className="bounds">
-//     <NavLink to='/' className="header--logo">Courses</NavLink>
-//     <nav><NavLink to='/signup' className="signin" href="sign-up.html">Sign Up</NavLink><NavLink to='/signin' className="signin" href="sign-in.html">Sign In</NavLink></nav>
-//   </div>
-// </div>
-//   )
-
 
 export default Header;
