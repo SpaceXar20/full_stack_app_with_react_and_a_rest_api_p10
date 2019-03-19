@@ -1,7 +1,8 @@
 //this component will have it's own state
 import React, { Component } from "react";
 import axios from "axios";
-import { NavLink } from "react-router-dom"; //import Navlink to create nav links and to put active class on any link that is active
+import { NavLink } from "react-router-dom"; //import NavLink to create nav links and to put active class on any link that is active
+import ReactMarkdown from "react-markdown"
 
 /* This component provides the "Course Detail" screen by retrieving the detail 
 for a course from the REST API's /api/courses/:id route and rendering the course.
@@ -10,9 +11,6 @@ The component also renders a "Delete Course" button that when clicked
 should send a DELETE request to the REST API's /api/courses/:id route in order to delete a course.
 
 This component also renders an "Update Course" button for navigating to the "Update Course" screen. */
-const hide = {
-  display: "none"
-};
 
 class CourseDetail extends Component {
   constructor(props) {
@@ -64,24 +62,18 @@ class CourseDetail extends Component {
       });
   }
 
-  //     add rendering logic so that the "Update Course" and "Delete Course" buttons only display if:
-  // There's an authenticated user.
-  // And the authenticated user's ID matches that of the user who owns the course.
   render() {
     const { course, user } = this.state;
     const isLoggedIn = localStorage.getItem("IsLoggedIn");
     const UserId = JSON.parse(localStorage.getItem("UserId"));
-    console.log(user._id)
-    console.log(UserId) 
-
-    return (
-      //JSX inside
+    
+    return (//JSX inside
       <div>
         <div className="actions--bar">
           <div className="bounds">
             <div className="grid-100">
               <span>
-                {(isLoggedIn && user._id === UserId) ? (
+                {(isLoggedIn && user._id === UserId) ? ( // the "Update Course" and "Delete Course" buttons only display if There's an authenticated user. And the authenticated user's ID matches that of the user who owns the course.
                   <span>
                     <NavLink
                       to={`/courses/${course._id}/update`}
@@ -97,7 +89,7 @@ class CourseDetail extends Component {
                       Delete Course
                     </NavLink>
                   </span>
-                ) : null}
+                ) : null} {/*else if there is no one logged in and the user ids don't match then hide the buttons */}
               </span>
               <NavLink
                 to="/"
@@ -117,7 +109,7 @@ class CourseDetail extends Component {
               This course was created by: {user.firstName} {user.lastName}
             </p>
             <div className="course--description">
-              <p>{course.description}</p>
+               <ReactMarkdown source={course.description} /> {/*this will need to be formatted using react-markdown */}
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -130,7 +122,7 @@ class CourseDetail extends Component {
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
-                    <li>{course.materialsNeeded}</li>
+                   <ReactMarkdown source={` * ${course.materialsNeeded}`} /> {/*this will need to be formatted using react-markdown */}
                   </ul>
                 </li>
               </ul>
@@ -144,9 +136,3 @@ class CourseDetail extends Component {
 
 export default CourseDetail;
 
-// What I originally had
-//   {!isLoggedIn && user._id !== UserId ? (<span>
-//     <NavLink to={`/courses/${course._id}/update`} className="button">Update Course</NavLink>
-//     <NavLink to={"#"} className="button" onClick={this.handleDelete}>
-//                    Delete Course</NavLink>
-//  </span>) : null}

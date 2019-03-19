@@ -8,8 +8,6 @@ import {
   BrowserRouter,
   Route,
   Switch,
-  Redirect,
-  Link
 } from "react-router-dom";
 
 
@@ -58,7 +56,7 @@ signIn(userData) {
   //do a fetch call to get/users
   axios.get('http://localhost:5000/api/users', {
    auth: { //set auth headers so that userData will hold the email address and password for the authenticated user 
-       username: userData. emailAddress,
+       username: userData.emailAddress,
        password: userData.password
        
 }
@@ -71,7 +69,7 @@ signIn(userData) {
       window.localStorage.setItem('Email',userData.emailAddress)
       window.localStorage.setItem('Password',userData.password)
       window.localStorage.setItem('UserId', JSON.stringify(results.data.user_id))
-       window.localStorage.setItem('IsLoggedIn', JSON.stringify(true))
+      window.localStorage.setItem('IsLoggedIn', JSON.stringify(true))
       window.location.assign('/') //use location.assign so that the user can be redirected to the updated Nav bar with their name after login in
 })
 

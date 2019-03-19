@@ -6,9 +6,7 @@ import { NavLink } from 'react-router-dom'; //import Navlink to create nav links
  and use NavLink to redirect the user to main page afterwards   */
 
 class UserGreeting extends Component {
-  constructor() {
-    super()
-  }
+ 
 
   handleSignOut = () => {
     localStorage.clear();

@@ -19,7 +19,8 @@ class UserSignUp extends Component {
         lastName: '',
         emailAddress: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        errors: []//this property will hold the errors sent from the rest api
       };
       this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit  to the class in order to use it with (this)
     }   
@@ -45,8 +46,14 @@ class UserSignUp extends Component {
         ).then( () => {
           const {  history } = this.props;
           history.push(`/`)
-        })
-    };
+        }).catch( err => { //use a catch method to catch the errors and display them is the status code comes back as 400
+          console.log("CATCH =", err.response.data.errors);
+          this.setState({ //if there were errors, then set the errors state in react to the error messages that came from the REST API
+            errors: err.response.data.errors
+          })
+        });
+      }
+     
 
 
     /*this function will allow the state to be updated at every text input whenever the user types,
@@ -59,7 +66,13 @@ class UserSignUp extends Component {
       }
 
      
+      
      render() {
+    //set the errors state to a const called errors, then map through them in order to render them in a list format
+    const errors = this.state.errors; 
+    const errorList = errors.map((error) =>
+      <li key={error.toString()}>{error}</li>);
+
        return ( //JSX inside
         <div>
         <hr />
@@ -67,6 +80,11 @@ class UserSignUp extends Component {
         <div className="grid-33 centered signin">
           <h1>Sign Up</h1>
           <div>
+            <div className="validation-errors">
+              <ul>{errorList}</ul>
+            </div>
+          </div>
+            <div>
             <form onSubmit={this.handleSubmit}>
               <div><input id="firstName" name="firstName" type="text" className="" placeholder="First Name" value={this.state.firstName} onChange={e => this.change(e)} /></div>
               <div><input id="lastName" name="lastName" type="text" className="" placeholder="Last Name" value={this.state.lastName} onChange={e => this.change(e)} /></div>

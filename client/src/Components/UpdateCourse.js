@@ -21,7 +21,8 @@ class UpdateCourse extends Component {
         title: '', //the properties that have an empty strings will contain the values when the user submits the form to update the form
         description: '',
         estimatedTime: '',
-        materialsNeeded: ''
+        materialsNeeded: '',
+        errors: []
       };
       this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit and handleCancel to the class in order to use it with (this)
       this.handleCancel = this.handleCancel.bind(this);
@@ -62,7 +63,12 @@ class UpdateCourse extends Component {
         ).then( () => {
           const {  history } = this.props;
           history.push(`/`)
-        })
+        }).catch( err => { //use a catch method to catch the errors and display them is the status code comes back as 400
+          console.log("CATCH =", err.response.data.errors);
+          this.setState({ //if there were errors, then set the errors state in react to the error messages that came from the REST API
+            errors: err.response.data.errors
+          })
+        });
     };
 
     //this function will handle the cancel button so that the user is redirected to the course info page when they click on cancel
@@ -93,12 +99,21 @@ class UpdateCourse extends Component {
   }
      
      render() {
-      const { course, user } = this.state;;  //set courses and user to this.state 
+       //set the errors state to a const called errors, then map through them in order to render them in a list format
+    const errors = this.state.errors; 
+    const errorList = errors.map((error) =>
+      <li key={error.toString()}>{error}</li>);
+
+      const { course, user } = this.state;;  //set courses and user to this.state
+
        return ( //JSX inside
         <div>
         <hr />
         <div className="bounds course--detail">
           <h1>Update Course</h1>
+          <div className="validation-errors">
+              <ul>{errorList}</ul>
+            </div>
           <div>
             <form onSubmit={ this.handleSubmit}>
               <div className="grid-66">
@@ -108,7 +123,7 @@ class UpdateCourse extends Component {
                   <p>By {user.firstName} {user.lastName}</p>
                 </div>
                 <div className="course--description">
-                  <div><textarea id="description" name="description"  placeholder="Course description..." defaultValue={this.state.course.description} onChange={e => this.change(e)}/> </div>
+                  <div><textarea id="description" name="description"  placeholder={this.state.course.description} onChange={e => this.change(e)}/> </div>
                 </div>
               </div>
               <div className="grid-25 grid-right">
@@ -116,11 +131,11 @@ class UpdateCourse extends Component {
                   <ul className="course--stats--list">
                     <li className="course--stats--list--item">
                       <h4>Estimated Time</h4>
-                      <div><input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours" defaultValue={course.estimatedTime} onChange={e => this.change(e)} /></div>
+                      <div><input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours" defaultValue={this.state.course.estimatedTime} onChange={e => this.change(e)} /></div>
                     </li>
                     <li className="course--stats--list--item">
                       <h4>Materials Needed</h4>
-                      <div><textarea id="materialsNeeded" name="materialsNeeded" placeholder="List materials..." defaultValue={this.state.course.materialsNeeded}  onChange={e => this.change(e)} /></div>
+                      <div><textarea id="materialsNeeded" name="materialsNeeded" placeholder={this.state.course.materialsNeeded}  onChange={e => this.change(e)} /></div>
                     </li>
                   </ul>
                 </div>

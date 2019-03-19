@@ -21,7 +21,8 @@ class CreateCourse extends Component {
         title: '',
         description: '',
         estimatedTime: '',
-        materialsNeeded: ''
+        materialsNeeded: '',
+        errors: []
       };
 
       this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit  to the class in order to use it with (this)
@@ -35,7 +36,8 @@ class CreateCourse extends Component {
         title: this.state.title,
         description: this.state.description,
         estimatedTime: this.state.estimatedTime,
-        materialsNeeded: this.state.materialsNeeded
+        materialsNeeded: this.state.materialsNeeded,
+        errors: []//this property will hold the errors sent from the rest api
       };
       axios({
         method: 'post',
@@ -49,7 +51,12 @@ class CreateCourse extends Component {
           alert('The course has been successfully created!')
         ).then( () => {
           this.props.history.push("/");
-        })
+        }).catch( err => { //use a catch method to catch the errors and display them is the status code comes back as 400
+          console.log("CATCH =", err.response.data.errors);
+          this.setState({ //if there were errors, then set the errors state in react to the error messages that came from the REST API
+            errors: err.response.data.errors
+          })
+        });
     };
 
      /*this function will allow the state to be updated at every text input whenever the user types,
@@ -62,21 +69,24 @@ class CreateCourse extends Component {
      }
 
      render() {
+       //set the errors state to a const called errors, then map through them in order to render them in a list format
+    const errors = this.state.errors; 
+    const errorList = errors.map((error) =>
+      <li key={error.toString()}>{error}</li>);
+      
        return ( //JSX inside
         <div>
         <hr />
         <div className="bounds course--detail">
           <h1>Create Course</h1>
           <div>
-            {/* <div>
-              <h2 className="validation--errors--label">Validation errors</h2>
-              <div className="validation-errors">
-                <ul>
-                  <li>Please provide a value for "Title"</li>
-                  <li>Please provide a value for "Description"</li>
-                </ul>
-              </div>
-            </div> */}
+            <div>
+            <div>
+            <div className="validation-errors">
+              <ul>{errorList}</ul>
+            </div>
+          </div>
+            </div>
             <form onSubmit={ this.handleSubmit}>
               <div className="grid-66">
                 <div className="course--header">

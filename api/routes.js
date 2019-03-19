@@ -185,10 +185,10 @@ router.post("/courses", authenticateUser, [
   //Validate if the user included all required fields and that none are left blank
   check('title')
     .exists({ checkNull: true, checkFalsy: true })
-    .withMessage('Please provide a value for "title"'),
+    .withMessage('Please provide a value for "Title"'),
   check('description')
     .exists({ checkNull: true, checkFalsy: true })
-    .withMessage('Please provide a value for "description"'),
+    .withMessage('Please provide a value for "Description"'),
  ], (req, res, next) => {
 
    // Attempt to get the validation result from the Request object.
