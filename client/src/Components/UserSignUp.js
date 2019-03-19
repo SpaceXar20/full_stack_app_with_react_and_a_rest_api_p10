@@ -24,7 +24,7 @@ class UserSignUp extends Component {
       };
       this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit  to the class in order to use it with (this)
     }   
-  
+
     //this method will be used to create a new user by sending a post request to localhost:5000/api/users/
     handleSubmit = event => {
       event.preventDefault();
@@ -34,25 +34,35 @@ class UserSignUp extends Component {
         lastName: this.state.lastName,
         emailAddress: this.state.emailAddress,
         password: this.state.password,
-        confirmPassword: this.state.confirmPassword
+        confirmPassword: this.state.confirmPassword,
       };
 
+      if (this.state.password !== this.state.confirmPassword) { //if the password and the confirm passwords don't match then render an alert, if they do match continue making the API request
+        alert("Passwords don't match");
+    } else {
       axios({
         method: 'post',
         url: 'http://localhost:5000/api/users/',
         data: newUser
-        }).then(
-          alert('Your account was successfully created!')
-        ).then( () => {
-          const {  history } = this.props;
-          history.push(`/`)
-        }).catch( err => { //use a catch method to catch the errors and display them is the status code comes back as 400
-          console.log("CATCH =", err.response.data.errors);
-          this.setState({ //if there were errors, then set the errors state in react to the error messages that came from the REST API
-            errors: err.response.data.errors
-          })
+        }).then(response => { //if the response came back as 201("Created"), then alert the user that the course was successfully created, if another code came back then redirect them to the error handler
+        if (response.status === 201) {
+          alert("Your account was successfully created!");
+          this.props.history.push("/signin");
+        } else {
+          throw new Error();
+        } 
+      }).catch(err => {
+        //use a catch method to catch the errors and display them is the status code comes back as 400
+        console.log("CATCH =", err.response.data.errors);
+        this.setState({
+          //if there were errors, then set the errors state in react to the error messages that came from the REST API
+          errors: err.response.data.errors
         });
-      }
+      }); // make API call
+    }
+}
+      
+  
      
 
 
@@ -102,7 +112,7 @@ class UserSignUp extends Component {
      );
     } 
    }
-     
+    
      
      export default UserSignUp;
      

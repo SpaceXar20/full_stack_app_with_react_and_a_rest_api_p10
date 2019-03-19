@@ -58,22 +58,27 @@ class UpdateCourse extends Component {
           password: window.localStorage.getItem('Password')
        },
         data: updateCourse
-        }).then(
-          alert('The course has been successfully updated!')
-        ).then( () => {
-          const {  history } = this.props;
-          history.push(`/`)
-        }).catch( err => { //use a catch method to catch the errors and display them is the status code comes back as 400
-          console.log("CATCH =", err.response.data.errors);
-          this.setState({ //if there were errors, then set the errors state in react to the error messages that came from the REST API
-            errors: err.response.data.errors
-          })
+        }).then(response => { //if the response came back as 204 then alert the user that the course was successfully updated, if another code came back then redirect them to the error handler
+        if (response.status === 204) {
+          alert("The course has been successfully updated!");
+          this.props.history.push("/");
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(err => {
+        //use a catch method to catch the errors and display them is the status code comes back as 400
+        console.log("CATCH =", err.response.data.errors);
+        this.setState({
+          //if there were errors, then set the errors state in react to the error messages that came from the REST API
+          errors: err.response.data.errors
         });
-    };
+      });
+  };
 
     //this function will handle the cancel button so that the user is redirected to the course info page when they click on cancel
     handleCancel = event => {
-      const { match: { params }, history } = this.props;
+      const { history } = this.props;
       const { course } = this.state;
       event.preventDefault();
       history.push(`/courses/${course._id}`)

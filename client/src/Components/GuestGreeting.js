@@ -1,7 +1,5 @@
-// stateless functional component
-
 import React from 'react';
-import { NavLink } from 'react-router-dom'; //import Navlink to create nav links and to put active class on any link that is active
+import { NavLink } from 'react-router-dom'; //import NavLink to create nav links and to put active class on any link that is active
 
 //this component will render if there is no authenticated user
 const GuestGreeting = () => {

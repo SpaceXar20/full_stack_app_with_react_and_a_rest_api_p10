@@ -12,9 +12,7 @@ This component also renders a link to the "Create Course" screen. */
 
  class Courses extends Component {
   constructor(props) {
-    //state for data we want to display from API
     super(props);
-    // console.log(this.props)
     this.state = {
       courses: [] //set initial state to a empty array called courses
     };

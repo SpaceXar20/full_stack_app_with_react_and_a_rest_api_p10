@@ -16,10 +16,10 @@ class UserSignIn extends Component {
         emailAddress: '',
         password: '' 
       };
-      this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit and handleCancel to the class in order to use it with (this)
+      this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit  to the class in order to use it with (this)
     }   
      
-    //this method will be called when the user submits the sign in button, I will need to pass {this.props.onSubmit} to it from the App.js line 92
+    //this method will be called when the user submits the sign in button
     handleSubmit = event => {
       console.log( this.state)
       event.preventDefault();

@@ -109,7 +109,7 @@ class CourseDetail extends Component {
               This course was created by: {user.firstName} {user.lastName}
             </p>
             <div className="course--description">
-               <ReactMarkdown source={course.description} /> {/*this will need to be formatted using react-markdown */}
+               <ReactMarkdown source={course.description} /> 
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -122,7 +122,7 @@ class CourseDetail extends Component {
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
-                   <ReactMarkdown source={` * ${course.materialsNeeded}`} /> {/*this will need to be formatted using react-markdown */}
+                   <ReactMarkdown source={` * ${course.materialsNeeded}`} /> 
                   </ul>
                 </li>
               </ul>
