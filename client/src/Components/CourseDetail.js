@@ -10,21 +10,27 @@ The component also renders a "Delete Course" button that when clicked
 should send a DELETE request to the REST API's /api/courses/:id route in order to delete a course.
 
 This component also renders an "Update Course" button for navigating to the "Update Course" screen. */
+const hide = {
+  display: "none"
+};
 
 class CourseDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = { //initialize state and include a property to hold the user and course info on empty arrays
+    this.state = {
+      //initialize state and include a property to hold the user and course info on empty arrays
       course: [],
       user: []
     };
     this.handleDelete = this.handleDelete.bind(this); //bind the handleDelete method in order to associate it with the class so we can use it on the button with the context of [this]
   }
-  
-   /*  The library passes in a prop called match into every route that is rendered. Inside this match object is another object called params
+
+  /*  The library passes in a prop called match into every route that is rendered. Inside this match object is another object called params
    this holds all matching params where the key is the name we specified when creating the route and the value is the actual value in the URL.  */
-    componentDidMount() {
-    const {match: { params }} = this.props; //I used a code snippet from this video https://scotch.io/courses/using-react-router-4/route-params
+  componentDidMount() {
+    const {
+      match: { params }
+    } = this.props; //I used a code snippet from this video https://scotch.io/courses/using-react-router-4/route-params
     //fetch data from API
     axios
       .get(`http://localhost:5000/api/courses/${params.id}`)
@@ -41,20 +47,33 @@ class CourseDetail extends Component {
 
   //this method will be for deleting a course
   handleDelete() {
-    const { match: { params }, history } = this.props;
+    const {
+      match: { params },
+      history
+    } = this.props;
 
-    axios.delete(`http://localhost:5000/api/courses/${params.id}`, {
-    auth: {
-      username: window.localStorage.getItem('Email'),
-      password: window.localStorage.getItem('Password')
-   }
-  }).then(() => {
-      history.push("/"); //I used the history object and have it push to the homepage, that way every time I delete a course I am redirected to (/) afterwards
-    });
+    axios
+      .delete(`http://localhost:5000/api/courses/${params.id}`, {
+        auth: {
+          username: window.localStorage.getItem("Email"),
+          password: window.localStorage.getItem("Password")
+        }
+      })
+      .then(() => {
+        history.push("/"); //I used the history object and have it push to the homepage, that way every time I delete a course I am redirected to (/) afterwards
+      });
   }
 
+  //     add rendering logic so that the "Update Course" and "Delete Course" buttons only display if:
+  // There's an authenticated user.
+  // And the authenticated user's ID matches that of the user who owns the course.
   render() {
-    const { course, user } = this.state; //set a const variable to hold courses and user to equal to this.state
+    const { course, user } = this.state;
+    const isLoggedIn = localStorage.getItem("IsLoggedIn");
+    const UserId = JSON.parse(localStorage.getItem("UserId"));
+    console.log(user._id)
+    console.log(UserId) 
+
     return (
       //JSX inside
       <div>
@@ -62,19 +81,23 @@ class CourseDetail extends Component {
           <div className="bounds">
             <div className="grid-100">
               <span>
-                <NavLink
-                  to={`/courses/${course._id}/update`}
-                  className="button"
-                >
-                  Update Course
-                </NavLink>
-                <NavLink
-                  to={"#"}
-                  className="button"
-                  onClick={this.handleDelete}
-                >
-                  Delete Course
-                </NavLink>
+                {(isLoggedIn && user._id === UserId) ? (
+                  <span>
+                    <NavLink
+                      to={`/courses/${course._id}/update`}
+                      className="button"
+                    >
+                      Update Course
+                    </NavLink>
+                    <NavLink
+                      to={"#"}
+                      className="button"
+                      onClick={this.handleDelete}
+                    >
+                      Delete Course
+                    </NavLink>
+                  </span>
+                ) : null}
               </span>
               <NavLink
                 to="/"
@@ -90,7 +113,9 @@ class CourseDetail extends Component {
           <div className="course--header">
             <h4 className="course--label">Course</h4>
             <h3 className="course--title">{course.title}</h3>
-            <p>This course was created by: {user.firstName} {user.lastName}</p>
+            <p>
+              This course was created by: {user.firstName} {user.lastName}
+            </p>
             <div className="course--description">
               <p>{course.description}</p>
             </div>
@@ -118,3 +143,10 @@ class CourseDetail extends Component {
 }
 
 export default CourseDetail;
+
+// What I originally had
+//   {!isLoggedIn && user._id !== UserId ? (<span>
+//     <NavLink to={`/courses/${course._id}/update`} className="button">Update Course</NavLink>
+//     <NavLink to={"#"} className="button" onClick={this.handleDelete}>
+//                    Delete Course</NavLink>
+//  </span>) : null}

@@ -70,7 +70,7 @@ signIn(userData) {
       window.localStorage.setItem('LastName', results.data.lastName)
       window.localStorage.setItem('Email',userData.emailAddress)
       window.localStorage.setItem('Password',userData.password)
-      // // localStorage.setItem('UserId', JSON.stringify(results.data.user_id))
+      window.localStorage.setItem('UserId', JSON.stringify(results.data.user_id))
        window.localStorage.setItem('IsLoggedIn', JSON.stringify(true))
       window.location.assign('/') //use location.assign so that the user can be redirected to the updated Nav bar with their name after login in
 })

@@ -14,10 +14,10 @@ function PrivateRoute({ component: Component, ...rest }) {
       <Route
         {...rest}
         render={props =>
-        /*If "IsLoggedIn" is located inside the local storage(user logged in), then render the component defined by PrivateRoute */
-            localStorage.getItem("IsLoggedIn")  ? (
-            <Component {...props} />
-          ) :  (  //else if there's no authenticated user, redirect the user to the signin route 
+        //If "IsLoggedIn" is located inside the local storage(user logged in)
+            localStorage.getItem("IsLoggedIn")   //then render the components defined by PrivateRoute */
+            ? ( <Component {...props} /> ) 
+            : (alert('You must be logged in to do that!'),   //else if there's no authenticated user, redirect the user to the signin route 
             <Redirect 
               to='/signin' 
             /> 
