@@ -20,8 +20,8 @@ class UpdateCourse extends Component {
         user: [],
         errors: []
       };
-      this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit and handleCancel to the class in order to use it with (this)
-      this.handleCancel = this.handleCancel.bind(this);
+      // this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit and handleCancel to the class in order to use it with (this)
+      // this.handleCancel = this.handleCancel.bind(this);
     } 
     
     
@@ -40,10 +40,10 @@ class UpdateCourse extends Component {
       event.preventDefault();
 
       const updateCourse = {
-        title: this.state.course.title,
-        description: this.state.course.description,
-        estimatedTime: this.state.course.estimatedTime,
-        materialsNeeded: this.state.course.materialsNeeded
+        title: this.state.title,
+        description: this.state.description,
+        estimatedTime: this.state.estimatedTime,
+        materialsNeeded: this.state.materialsNeeded
       };
 
       axios({
@@ -59,17 +59,17 @@ class UpdateCourse extends Component {
           alert("The course has been successfully updated!");
           this.props.history.push("/");
         } else {
-          throw new Error();
+          // throw new Error();
         }
       })
-      .catch(err => {
-        //use a catch method to catch the errors and display them is the status code comes back as 400
-        console.log("CATCH =", err.response.data.errors);
-        this.setState({
-          //if there were errors, then set the errors state in react to the error messages that came from the REST API
-          errors: err.response.data.errors
-        });
-      });
+      // .catch(err => {
+      //   //use a catch method to catch the errors and display them is the status code comes back as 400
+      //   console.log("CATCH =", err.response.data.errors);
+      //   this.setState({
+      //     //if there were errors, then set the errors state in react to the error messages that came from the REST API
+      //     errors: err.response.data.errors
+      //   });
+      // });
   };
 
     //this function will handle the cancel button so that the user is redirected to the course info page when they click on cancel
