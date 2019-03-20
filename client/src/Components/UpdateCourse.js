@@ -34,7 +34,7 @@ class UpdateCourse extends Component {
         })
       }
 
-     //this function will handle the form submission to send a put request
+     //this function will handle the form submission to send a put request to the rest API
      handleSubmit = event => {
       const {match: { params }} = this.props;
       event.preventDefault();
