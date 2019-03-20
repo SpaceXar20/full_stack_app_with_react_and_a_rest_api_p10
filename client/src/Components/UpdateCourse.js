@@ -123,7 +123,7 @@ class UpdateCourse extends Component {
                   <p>By {this.state.user.firstName} {this.state.user.lastName}</p>
                 </div>
                 <div className="course--description">
-                  <div><textarea id="description" name="description"  defaultValue={this.state.course.description} onChange={e => this.change(e)}/> </div>
+                  <div><textarea id="description" name="description" placeholder={this.state.course.description} defaultValue={this.state.course.description} onChange={e => this.change(e)}/> </div>
                 </div>
               </div>
               <div className="grid-25 grid-right">
@@ -135,7 +135,7 @@ class UpdateCourse extends Component {
                     </li>
                     <li className="course--stats--list--item">
                       <h4>Materials Needed</h4>
-                      <div><textarea id="materialsNeeded" name="materialsNeeded"  defaultValue={this.state.course.materialsNeeded}  onChange={e => this.change(e)} /></div>
+                      <div><textarea id="materialsNeeded" name="materialsNeeded" placeholder={this.state.course.materialsNeeded}  defaultValue={this.state.course.materialsNeeded}  onChange={e => this.change(e)} /></div>
                     </li>
                   </ul>
                 </div>
