@@ -109,7 +109,6 @@ class UpdateCourse extends Component {
     const errorList = errors.map((error) =>
       <li key={error.toString()}>{error}</li>);
 
-      const { course, user } = this.state;;  //set courses and user to this.state
 
        return ( //JSX inside
         <div>
@@ -124,8 +123,8 @@ class UpdateCourse extends Component {
               <div className="grid-66">
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
-                  <div><input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..." defaultValue={course.title}  onChange={e => this.change(e)} /></div>
-                  <p>By {user.firstName} {user.lastName}</p>
+                  <div><input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..." defaultValue={this.state.course.title}  onChange={e => this.change(e)} /></div>
+                  <p>By {this.state.user.firstName} {this.state.user.lastName}</p>
                 </div>
                 <div className="course--description">
                   <div><textarea id="description" name="description"  placeholder={this.state.course.description} onChange={e => this.change(e)}/> </div>

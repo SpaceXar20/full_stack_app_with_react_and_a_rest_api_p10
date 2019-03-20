@@ -19,6 +19,7 @@ import UserSignIn from "./Components/UserSignIn";
 import UserSignUp from "./Components/UserSignUp";
 import CreateCourse from "./Components/CreateCourse";
 import UpdateCourse from "./Components/UpdateCourse";
+import UserSignOut from "./Components/UserSignOut"
 import PrivateRoute from "./Components/PrivateRoute"
 
 /*I am going to manage user authentication on this component by using local storage, that way
@@ -88,6 +89,7 @@ signIn(userData) {
             <Route exact path="/courses/:id" component={CourseDetail} />
             <Route exact path="/signin" component={() => <UserSignIn  signIn={this.signIn}/>} /> 
             <Route exact path="/signup" component={UserSignUp} />
+            <Route exact path="/signout" component={() => <UserSignOut signOut={this.signOut}/>} /> 
           </Switch>
         </div>
       </BrowserRouter>
