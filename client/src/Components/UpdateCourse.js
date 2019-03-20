@@ -18,10 +18,6 @@ class UpdateCourse extends Component {
       this.state = {
         course: [], //the course and user properties contain the current course info before being updated
         user: [],
-        title: '', //the properties that have an empty strings will contain the values when the user submits the form to update the form
-        description: '',
-        estimatedTime: '',
-        materialsNeeded: '',
         errors: []
       };
       this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit and handleCancel to the class in order to use it with (this)
@@ -44,10 +40,10 @@ class UpdateCourse extends Component {
       event.preventDefault();
 
       const updateCourse = {
-        title: this.state.title,
-        description: this.state.description,
-        estimatedTime: this.state.estimatedTime,
-        materialsNeeded: this.state.materialsNeeded
+        title: this.state.course.title,
+        description: this.state.course.description,
+        estimatedTime: this.state.course.estimatedTime,
+        materialsNeeded: this.state.course.materialsNeeded
       };
 
       axios({
@@ -127,7 +123,7 @@ class UpdateCourse extends Component {
                   <p>By {this.state.user.firstName} {this.state.user.lastName}</p>
                 </div>
                 <div className="course--description">
-                  <div><textarea id="description" name="description"  placeholder={this.state.course.description} onChange={e => this.change(e)}/> </div>
+                  <div><textarea id="description" name="description"  defaultValue={this.state.course.description} onChange={e => this.change(e)}/> </div>
                 </div>
               </div>
               <div className="grid-25 grid-right">
@@ -139,7 +135,7 @@ class UpdateCourse extends Component {
                     </li>
                     <li className="course--stats--list--item">
                       <h4>Materials Needed</h4>
-                      <div><textarea id="materialsNeeded" name="materialsNeeded" placeholder={this.state.course.materialsNeeded}  onChange={e => this.change(e)} /></div>
+                      <div><textarea id="materialsNeeded" name="materialsNeeded"  defaultValue={this.state.course.materialsNeeded}  onChange={e => this.change(e)} /></div>
                     </li>
                   </ul>
                 </div>
