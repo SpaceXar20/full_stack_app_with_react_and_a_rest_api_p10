@@ -16,23 +16,27 @@ class UpdateCourse extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        course: [], //the course and user properties contain the current course info before being updated
+        course: {}, //the course and user properties contain the current course info before being updated
         user: [],
         errors: []
       };
-      // this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit and handleCancel to the class in order to use it with (this)
-      // this.handleCancel = this.handleCancel.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this); //bind handleSubmit and handleCancel to the class in order to use it with (this)
+      this.handleCancel = this.handleCancel.bind(this);
     } 
     
     
     /*this function will allow the state to be updated at every text input whenever the user types,
-      it does this by targeting name value, I used a code snippet from this helpful video
-      https://www.youtube.com/watch?v=qH4pJISKeoI&feature=youtu.be*/
+      it does this by targeting name value, I used a code snippet from this helpful post
+     https://stackoverflow.com/a/55270898/10043628*/
+
       change = e => {
+        const obj = { [e.target.name]: e.target.value };
+        const course = Object.assign({}, this.state.course, obj);
         this.setState({
-          [e.target.name]: e.target.value
-        })
-      }
+          course
+        });
+      };
+
 
      //this function will handle the form submission to send a put request to the rest API
      handleSubmit = event => {
@@ -40,10 +44,10 @@ class UpdateCourse extends Component {
       event.preventDefault();
 
       const updateCourse = {
-        title: this.state.title,
-        description: this.state.description,
-        estimatedTime: this.state.estimatedTime,
-        materialsNeeded: this.state.materialsNeeded
+        title: this.state.course.title,
+        description: this.state.course.description,
+        estimatedTime: this.state.course.estimatedTime,
+        materialsNeeded: this.state.course.materialsNeeded
       };
 
       axios({
@@ -59,17 +63,17 @@ class UpdateCourse extends Component {
           alert("The course has been successfully updated!");
           this.props.history.push("/");
         } else {
-          // throw new Error();
+          throw new Error();
         }
       })
-      // .catch(err => {
-      //   //use a catch method to catch the errors and display them is the status code comes back as 400
-      //   console.log("CATCH =", err.response.data.errors);
-      //   this.setState({
-      //     //if there were errors, then set the errors state in react to the error messages that came from the REST API
-      //     errors: err.response.data.errors
-      //   });
-      // });
+      .catch(err => {
+        //use a catch method to catch the errors and display them is the status code comes back as 400
+        console.log("CATCH =", err.response.data.errors);
+        this.setState({
+          //if there were errors, then set the errors state in react to the error messages that came from the REST API
+          errors: err.response.data.errors
+        });
+      });
   };
 
     //this function will handle the cancel button so that the user is redirected to the course info page when they click on cancel
